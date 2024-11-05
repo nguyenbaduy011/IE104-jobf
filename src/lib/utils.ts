@@ -12,9 +12,9 @@ export function toSlug(str: string) {
 
   str = toRomaji(str);
 
-  var from =
+  const from =
     "àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ·/_,:;『』";
-  var to =
+  const to =
     "aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd--------";
   for (let i = 0; i < from.length; i++) {
     str = str.replace(new RegExp(from.charAt(i), "g"), to.charAt(i));
