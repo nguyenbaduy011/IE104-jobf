@@ -23,7 +23,7 @@ export default function page() {
         <ul className="list-disc list-inside text-lg marker:text-red-500">
           <li>Đặt câu hỏi trên Facebook JobF</li>
           <li>Đọc các bài blog của chúng tôi về bí quyết viết CV và kỹ năng phỏng vấn</li>
-          <li>Gọi chúng tôi theo số +84 69 6969 6969</li>
+          <li>Gọi chúng tôi theo số +84 69 6969 6999</li>
         </ul>
       </div>
     </section>
