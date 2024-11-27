@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import LoadingButton from "@/components/ui/loadingButton";
 import { ToastAction } from "@/components/ui/toast";
+import { Button } from "@/components/ui/button";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -63,11 +64,18 @@ export default function SignIn() {
     );
   };
 
+  const handleGoogle = async () => {
+    await client.signIn.social({
+      provider: "google",
+      callbackURL: "/",
+    });
+  };
+
   return (
     <section className="py-40 px-20 flex gap-16">
       <div className=" w-2/3 flex justify-center">
         <h2 className="font-medium tracking-tight text-6xl/tight mt-7">
-          Đăng ký
+          Đăng nhập
         </h2>
       </div>
       <div className="w-full flex justify-center">
@@ -112,6 +120,13 @@ export default function SignIn() {
               </LoadingButton>
             </form>
           </Form>
+          <Button
+            variant="outline"
+            className="mt-4 w-full"
+            onClick={handleGoogle}
+          >
+            Đăng nhập với Google
+          </Button>
           <div className="mt-4 text-center text-sm">
             Chưa có tài khoản?{" "}
             <Link href="/signup" className="underline">
