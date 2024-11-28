@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-white">
+    <footer className="bg-primary-foreground">
       <div className="h-[400px] flex items-center justify-center text-black">
         <div className="flex gap-20">
           <div className="space-y-4 font-bold flex flex-col items-center">
@@ -42,6 +42,10 @@ export default function Footer() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="bg-primary text-white py-6 text-center text-sm">
+        &copy; {new Date().getFullYear()} JobF. All rights
+        reserved.
       </div>
     </footer>
   );
