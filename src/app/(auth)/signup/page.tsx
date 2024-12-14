@@ -1,8 +1,7 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { client } from "@/lib/auth-client";
-import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -15,8 +14,21 @@ import {
 } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
-import LoadingButton from "@/components/ui/loadingButton";
 import { ToastAction } from "@/components/ui/toast";
+import { useRouter } from "next/navigation";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Mail, User, Lock, Loader2 } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Icons } from "@/components/ui/icons";
+import Link from "next/link";
 
 const formSchema = z.object({
   name: z
@@ -41,6 +53,8 @@ const formSchema = z.object({
 });
 
 export default function SignUp() {
+  const data = client.useSession();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -54,7 +68,7 @@ export default function SignUp() {
 
   const handleSignUp = async (values: z.infer<typeof formSchema>) => {
     await client.signUp.email(
-      { ...values, callbackURL: "/" },
+      { ...values, callbackURL: "/login" },
       {
         onError(ctx) {
           toast({
@@ -68,6 +82,8 @@ export default function SignUp() {
           toast({
             title: "Đăng ký thành công",
           });
+          router.push("/verify");
+          router.refresh();
         },
         onRequest() {
           setIsLoading(true);
@@ -79,15 +95,30 @@ export default function SignUp() {
     );
   };
 
+  const handleGoogle = async () => {
+    await client.signIn.social({
+      provider: "google",
+      callbackURL: "/",
+    });
+  };
+
+  useEffect(() => {
+    if (data.data?.session) {
+      router.push("/"); // Chuyển hướng về trang chính nếu có session
+    }
+  }, [data.data?.session, router]);
   return (
-    <section className="py-40 px-20 flex gap-16">
-      <div className=" w-2/3 flex justify-center">
-        <h2 className="font-medium tracking-tight text-6xl/tight mt-7">
-          Đăng ký
-        </h2>
-      </div>
-      <div className="w-full flex justify-center">
-        <div className="w-[350px]">
+    <section className="flex items-center justify-center min-h-screen py-10">
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-3xl font-bold tracking-tight text-center">
+            Đăng ký
+          </CardTitle>
+          {/* <CardDescription className="text-center">
+            Tạo tài khoản mới để bắt đầu sử dụng dịch vụ của chúng tôi
+          </CardDescription> */}
+        </CardHeader>
+        <CardContent>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleSignUp)}
@@ -100,7 +131,14 @@ export default function SignUp() {
                   <FormItem>
                     <Label>Tên người dùng</Label>
                     <FormControl>
-                      <Input placeholder="abc12345" {...field} />
+                      <div className="relative">
+                        <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <Input
+                          placeholder="abc12345"
+                          {...field}
+                          className="pl-10"
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -113,7 +151,14 @@ export default function SignUp() {
                   <FormItem>
                     <Label>Email</Label>
                     <FormControl>
-                      <Input placeholder="m@example.com" {...field} />
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <Input
+                          placeholder="m@example.com"
+                          {...field}
+                          className="pl-10"
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -126,29 +171,54 @@ export default function SignUp() {
                   <FormItem>
                     <Label>Mật khẩu</Label>
                     <FormControl>
-                      <Input {...field} type="password" />
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <Input {...field} type="password" className="pl-10" />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <LoadingButton
-                className="w-full"
-                type="submit"
-                loading={isLoading}
-              >
-                Đăng ký
-              </LoadingButton>
+              <Button className="w-full" type="submit" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Đang đăng ký...
+                  </>
+                ) : (
+                  "Đăng ký"
+                )}
+              </Button>
             </form>
           </Form>
-          <div className="mt-4 text-center text-sm">
+          <div className="relative my-4">
+            <div className="absolute inset-0 flex items-center">
+              <Separator />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                Hoặc đăng nhập với
+              </span>
+            </div>
+          </div>
+          <Button variant="outline" className="w-full" onClick={handleGoogle}>
+            <Icons.google className="mr-2 h-4 w-4" />
+            Đăng nhập với Google
+          </Button>
+        </CardContent>
+        <CardFooter>
+          <p className="text-center text-sm text-muted-foreground w-full">
             Đã có tài khoản?{" "}
-            <Link href="/login" className="underline">
+            <Link
+              href="/login"
+              className="font-medium text-primary hover:underline"
+            >
               Đăng nhập
             </Link>
-          </div>
-        </div>
-      </div>
+          </p>
+        </CardFooter>
+      </Card>
     </section>
   );
 }
