@@ -1,5 +1,4 @@
-import JobInformationForm from "@/app/jobs/createJob/jobInformationForm";
-
+import JobInformationForm from "@/app/admin/jobs/createJob/jobInformationForm";
 
 export default function CreateJob() {
   return (

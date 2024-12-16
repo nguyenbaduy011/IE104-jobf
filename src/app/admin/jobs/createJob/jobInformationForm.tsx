@@ -53,6 +53,8 @@ export default function JobInformationForm() {
       requiredSkills: "",
       jobDescription: "",
       benefits: "",
+      workingWay: "",
+      jobRequirements: "",
     },
   });
 
@@ -186,6 +188,22 @@ export default function JobInformationForm() {
                         </FormItem>
                       )}
                     />
+                    <FormField
+                      control={form.control}
+                      name="workingWay"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Hình thức làm việc</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Nhập hình thức làm việc"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   </TabsContent>
                   <TabsContent value="details" className="space-y-4">
                     <FormField
@@ -197,7 +215,7 @@ export default function JobInformationForm() {
                           <FormControl>
                             <Textarea
                               placeholder="Liệt kê ra các kỹ năng được yêu cầu"
-                              className="h-20"
+                              className="h-10"
                               {...field}
                             />
                           </FormControl>
@@ -214,6 +232,23 @@ export default function JobInformationForm() {
                           <FormControl>
                             <Textarea
                               placeholder="Cung cấp mô tả cụ thể hơn về công việc"
+                              className="h-32"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="jobRequirements"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Yêu cầu công việc</FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="Cung cấp yêu cầu cụ thể hơn về công việc"
                               className="h-32"
                               {...field}
                             />
