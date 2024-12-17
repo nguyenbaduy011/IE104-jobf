@@ -4,7 +4,7 @@
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { ColumnDef } from "@tanstack/react-table";
-import { Pencil, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,7 +17,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { deleteJob } from "@/lib/action/job/deleteJob";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import EditJobForm from "@/app/admin/jobs/createJob/editJobForm";
 export type Job = {
   id: number;
   jobTitle: string;
@@ -38,16 +39,9 @@ const HandleClick = ({
   return <a href={`/jobs/${slug}?id=${id}`}>{jobTitle}</a>;
 };
 
-const handleEdit = (id: number) => {
-  // Implement edit logic here
-  console.log(`Edit job with id: ${id}`);
-};
-
 const handleDelete = async (id: number) => {
-  const router = useRouter();
   try {
     await deleteJob(id); // Gọi server action
-    router.refresh();
     toast({
       title: "Xóa thành công",
       description: "Công việc đã được xóa.",
@@ -81,16 +75,37 @@ export const columns: ColumnDef<Job>[] = [
     header: "Hành động",
     cell: ({ row }) => {
       const job = row.original;
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const [data, setData] = useState<any>();
+
+      useEffect(() => {
+        async function fetchOneJob() {
+          try {
+            const response = await fetch("/api/getOneJob", {
+              method: "POST",
+              headers: {
+                "Content-type": "application/json",
+              },
+              body: JSON.stringify({ jobID: job.id }),
+            });
+            if (!response.ok) {
+              throw new Error("Lỗi khi lấy công việc");
+            }
+            const result = await response.json();
+            console.log(result);
+            setData(result.job);
+          } catch (error) {
+            console.error(error);
+            setData(undefined);
+          }
+        }
+        fetchOneJob();
+      }, [job.id]);
+
       return (
         <div className="flex space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => handleEdit(job.id)}
-          >
-            <Pencil className="h-4 w-4 mr-1" />
-            Chỉnh sửa
-          </Button>
+          {data && <EditJobForm job={data} />}
 
           <AlertDialog>
             <AlertDialogTrigger asChild>
