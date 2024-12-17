@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { db } from "@/drizzle/db"
+import { db } from "@/drizzle/db";
 import { sendEmail } from "@/lib/send-mail";
 
 export const auth = betterAuth({
@@ -9,11 +9,35 @@ export const auth = betterAuth({
   }),
   user: {
     additionalFields: {
-      admin: {
-        type: "boolean",
-        required: false,
-        defaultValue: false,
+      role: {
+        type: "string",
+        required: true,
+        defaultValue: "user",
         input: false,
+      },
+      summary: {
+        type: "string",
+        required: true,
+        defaultValue: "",
+        input: true,
+      },
+      workExperience: {
+        type: "string",
+        required: true,
+        defaultValue: "",
+        input: true,
+      },
+      education: {
+        type: "string",
+        required: true,
+        defaultValue: "",
+        input: true,
+      },
+      additionalInformation: {
+        type: "string",
+        required: true,
+        defaultValue: "",
+        input: true,
       },
     },
   },
