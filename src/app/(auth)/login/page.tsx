@@ -53,25 +53,44 @@ export default function SignIn() {
 
   const handleSignIn = async (values: z.infer<typeof formSchema>) => {
     await client.signIn.email(
-      { ...values, rememberMe: rememberUser},
+      { ...values, rememberMe: rememberUser },
       {
         onError(ctx) {
           if (ctx.error.status === 403) {
             toast({
               variant: "destructive",
-              title: "Đăng nhập thất bại, vui lòng xác nhận địa chỉ mail",
-              description: ctx.error.message,
-              action: <ToastAction altText="Try again">Thử lại</ToastAction>,
+              title: "Đăng nhập thất bại, vui lòng xác nhận địa chỉ email",
+              description: "Địa chỉ email chưa được xác nhận",
+              action: (
+                <ToastAction
+                  altText="Try again"
+                  onClick={() => {
+                    router.push("/login");
+                  }}
+                >
+                  Thử lại
+                </ToastAction>
+              ),
             });
             router.push("/verify");
             router.refresh();
+          } else {
+            toast({
+              variant: "destructive",
+              title: "Đăng nhập thất bại",
+              description: "Mật khẩu hoặc tài khoản không khớp",
+              action: (
+                <ToastAction
+                  altText="Try again"
+                  onClick={() => {
+                    router.push("/login");
+                  }}
+                >
+                  Thử lại
+                </ToastAction>
+              ),
+            });
           }
-          toast({
-            variant: "destructive",
-            title: "Đăng nhập thất bại",
-            description: ctx.error.message,
-            action: <ToastAction altText="Try again">Thử lại</ToastAction>,
-          });
         },
         onSuccess() {
           toast({
