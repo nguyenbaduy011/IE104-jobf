@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/popover";
 
 import { SelectAreaType } from "@/drizzle/schema/schema";
+import { useState } from "react";
 
 interface ComboboxDemoProps {
   areas: SelectAreaType[];
@@ -27,8 +28,8 @@ interface ComboboxDemoProps {
 }
 
 export function ComboboxDemo({ areas, onValueChange }: ComboboxDemoProps) {
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -53,12 +54,12 @@ export function ComboboxDemo({ areas, onValueChange }: ComboboxDemoProps) {
         <Command>
           <CommandInput placeholder="Tìm kiếm khu vực..." />
           <CommandList>
-            <CommandEmpty>Không tìm thấy kết quả</CommandEmpty>
+            <CommandEmpty>Không tìm thấy kết quả.</CommandEmpty>
             <CommandGroup>
               {areas.map((area) => (
                 <CommandItem
                   key={area.id}
-                  value={area.id}
+                  value={area.name}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
                     onValueChange(currentValue === value ? "" : currentValue);
