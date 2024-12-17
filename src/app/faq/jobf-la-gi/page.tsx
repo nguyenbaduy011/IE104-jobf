@@ -1,12 +1,12 @@
 export default function faq_1() {
     return (
-        <main className="bg-gradient-to-b from-gray-50 to-gray-100 p-8 text-gray-800">
+        <main className=" bg-gray-100 px-20 py-8 text-gray-800">
             <div className="flex items-center space-x-8">
                 <div className="w-3/4 space-y-6">
                     <h1 className="text-3xl font-bold text-gray-800 text-center mb-6">
                         JobF là gì?
                     </h1>
-                    <p className="text-lg leading-relaxed mb-6 text-gray-700">
+                    <p className="text-lg mb-6 text-gray-700 leading-9">
                         <span className="font-semibold text-gray-900">
                             JobF
                         </span>{" "}
@@ -20,7 +20,7 @@ export default function faq_1() {
                         <span className="font-medium">tối ưu</span> cho cả ứng
                         viên và nhà tuyển dụng.
                     </p>
-                    <p className="text-lg leading-relaxed mb-6 text-gray-700">
+                    <p className="text-lg mb-6 text-gray-700 leading-9">
                         JobF cung cấp một{" "}
                         <span className="font-semibold">
                             hệ sinh thái toàn diện
@@ -36,7 +36,7 @@ export default function faq_1() {
                         </span>{" "}
                         và nhận thông báo ngay khi có cơ hội phù hợp.
                     </p>
-                    <p className="text-lg leading-relaxed mb-6 text-gray-700">
+                    <p className="text-lg mb-6 text-gray-700 leading-9">
                         Đối với các công ty, JobF là công cụ{" "}
                         <span className="font-semibold">hiệu quả</span> để tiếp
                         cận ứng viên chất lượng,{" "}
@@ -48,7 +48,7 @@ export default function faq_1() {
                         <span className="italic">kỹ năng, kinh nghiệm</span> và
                         vị trí địa lý.
                     </p>
-                    <p className="text-lg leading-relaxed mb-6 text-gray-700">
+                    <p className="text-lg mb-6 text-gray-700 leading-9">
                         Ngoài ra, JobF hỗ trợ các{" "}
                         <span className="font-medium">
                             tính năng quản lý ứng viên
@@ -72,7 +72,7 @@ export default function faq_1() {
                         Để biết thêm thông tin, hãy quay lại{" "}
                         <a
                             href="/faq"
-                            className="text-blue-600 font-medium underline hover:text-blue-800"
+                            className="text-gray-600 font-medium underline hover:text-gray-800"
                         >
                             trang FAQ
                         </a>
