@@ -191,6 +191,12 @@ export default async function CompanyPage({ searchParams }: companyProps) {
                     </div>
                     <div className="text-base">{company_page.workingTime}</div>
                   </div>
+                  <div>
+                    <div className="text-gray-400 text-sm">
+                      Làm việc ngoài giờ
+                    </div>
+                    <div className="text-base">{company_page.overtime}</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -238,7 +244,9 @@ export default async function CompanyPage({ searchParams }: companyProps) {
               <div>
                 <div className="py-2">Địa chỉ: {company_page.address}</div>
                 <div className="py-2">Email: {company_page.email}</div>
-                <div className="py-2">Số điện thoại: {company_page.phoneNumber}</div>
+                <div className="py-2">
+                  Số điện thoại: {company_page.phoneNumber}
+                </div>
               </div>
             </div>
           </div>
