@@ -81,4 +81,3 @@ export function ComboboxDemo({ areas, onValueChange }: ComboboxDemoProps) {
     </Popover>
   );
 }
-
