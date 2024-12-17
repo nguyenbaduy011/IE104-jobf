@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useDropzone, FileWithPath, FileRejection } from "react-dropzone";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
   FormControl,
@@ -42,6 +41,9 @@ import { toast } from "@/hooks/use-toast";
 import { addCompany } from "@/lib/action/company/addCompany";
 import { SelectAreaType, SelectIndustryType } from "@/drizzle/schema/schema";
 import { SelectGroup } from "@radix-ui/react-select";
+import { upload } from "@vercel/blob/client";
+import RichTextEditor from "@/components/richText/richTextEditor";
+
 interface ImageDropzoneProps {
   onDrop: (acceptedFiles: FileWithPath[]) => void;
   acceptedFiles: readonly FileWithPath[];
@@ -160,6 +162,7 @@ export default function CompanyInformationForm() {
   }, []);
 
   async function onSubmit(values: CompanyValues) {
+    console.log(values.coverImage);
     const formData = new FormData();
 
     Object.entries(values).forEach(([key, value]) => {
@@ -176,16 +179,12 @@ export default function CompanyInformationForm() {
 
     if (coverImageFile) {
       try {
-        const formDataCoverImage = new FormData();
-        formDataCoverImage.append("file", coverImageFile);
-
-        const res = await fetch("/api/upload", {
-          method: "POST",
-          body: formDataCoverImage,
+        const newBlob = await upload(coverImageFile.name, coverImageFile, {
+          access: "public",
+          handleUploadUrl: "/api/upload-to-vercel-blob",
         });
-        const result = await res.json();
-        if (result.url) {
-          formData.append("coverImage", result.url);
+        if (newBlob) {
+          formData.append("coverImage", newBlob.url);
         }
       } catch (error) {
         console.error("Error uploading cover image:", error);
@@ -194,16 +193,13 @@ export default function CompanyInformationForm() {
 
     if (avatarFile) {
       try {
-        const formDataAvatar = new FormData();
-        formDataAvatar.append("file", avatarFile);
-
-        const res = await fetch("/api/upload", {
-          method: "POST",
-          body: formDataAvatar,
+        const newBlob = await upload(avatarFile.name, avatarFile, {
+          access: "public",
+          handleUploadUrl: "/api/upload-to-vercel-blob",
         });
-        const result = await res.json();
-        if (result.url) {
-          formData.append("avatar", result.url);
+
+        if (newBlob) {
+          formData.append("avatar", newBlob.url);
         }
       } catch (error) {
         console.error("Error uploading avatar image:", error);
@@ -211,16 +207,6 @@ export default function CompanyInformationForm() {
     }
 
     try {
-      // Tải hình lên Vercel Blob cho các file hình
-      const avatarUrl = avatarFile && (await uploadFileToBlob(avatarFile));
-      const coverImageUrl =
-        coverImageFile && (await uploadFileToBlob(coverImageFile));
-
-      // Cập nhật URL của hình ảnh vào formData trước khi gửi
-      if (avatarUrl) formData.set("avatar", avatarUrl);
-      if (coverImageUrl) formData.set("coverImage", coverImageUrl);
-
-      // Tiến hành gửi dữ liệu về server với API cho việc tạo thông tin công ty
       await addCompany(formData);
       toast({
         title: "Tạo thông tin công ty thành công",
@@ -235,26 +221,6 @@ export default function CompanyInformationForm() {
           "Đã có lỗi xảy ra khi tạo thông tin công ty. Vui lòng kiểm tra lại thông tin và thử lại.",
       });
     }
-  }
-
-  async function uploadFileToBlob(file: File) {
-    const formData = new FormData();
-    formData.append("file", file);
-    const headers = new Headers();
-    headers.append("x-vercel-filename", file.name);
-
-    const response = await fetch("/api/upload-to-vercel-blob", {
-      method: "POST",
-      body: formData,
-      headers,
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to upload file");
-    }
-
-    const result = await response.json();
-    return result.url; // Trả về URL của file đã upload lên Vercel Blob
   }
 
   return (
@@ -551,11 +517,12 @@ export default function CompanyInformationForm() {
                         <FormItem>
                           <FormLabel>Giới thiệu công ty</FormLabel>
                           <FormControl>
-                            <Textarea
+                            {/* <Textarea
                               placeholder="Mô tả công ty của bạn, bao gồm lịch sử, thành tích, đối tác và văn hóa."
                               className="h-32"
                               {...field}
-                            />
+                            /> */}
+                            <RichTextEditor onChange={field.onChange} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -568,11 +535,12 @@ export default function CompanyInformationForm() {
                         <FormItem>
                           <FormLabel>Phúc lợi</FormLabel>
                           <FormControl>
-                            <Textarea
+                            {/* <Textarea
                               placeholder="Liệt kê những phúc lợi mà công ty bạn cung cấp."
                               className="h-32"
                               {...field}
-                            />
+                            /> */}
+                            <RichTextEditor onChange={field.onChange}/>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
