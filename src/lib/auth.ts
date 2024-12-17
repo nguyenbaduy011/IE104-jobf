@@ -1,13 +1,32 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@/drizzle/db"
+import { sendEmail } from "@/lib/send-mail";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
   }),
+  user: {
+    additionalFields: {
+      admin: {
+        type: "boolean",
+        required: false,
+        defaultValue: false,
+        input: false,
+      },
+    },
+  },
   emailAndPassword: {
     enabled: true,
+    requireEmailVerification: true,
+    sendResetPassword: async ({ user, url }) => {
+      await sendEmail({
+        to: user.email,
+        subject: "Thiết lập lại mật khẩu của bạn",
+        text: `Nhấp vào link để thiết lập lại mật khẩu của bạn: ${url}`,
+      });
+    },
   },
   socialProviders: {
     google: {
@@ -18,5 +37,17 @@ export const auth = betterAuth({
   session: {
     expiresIn: 60 * 60 * 24 * 7,
     updateAge: 60 * 60 * 24,
+  },
+  emailVerification: {
+    sendOnSignUp: true,
+    sendVerificationEmail: async ({ user, url }) => {
+      // Sử dụng hàm sendEmail để gửi link xác minh
+      await sendEmail({
+        to: user.email,
+        subject: "Xác nhận địa chỉ mail của bạn",
+        text: `Nhấp vào link để xác nhận địa chỉ của bạn: ${url}`,
+      });
+    },
+    autoSignInAfterVerification: true,
   },
 });
