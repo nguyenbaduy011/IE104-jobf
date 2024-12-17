@@ -13,7 +13,18 @@ import { client } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-export function Profile({ user }: { user: any }) {
+type User = {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  email: string;
+  emailVerified: boolean;
+  name: string;
+  image?: string | null; // Cho phép null hoặc undefined
+  role?: string;
+};
+
+export function Profile({ user }: { user: User }) {
   const router = useRouter();
 
   return (
@@ -25,17 +36,22 @@ export function Profile({ user }: { user: any }) {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Tài khoản của tôi</DropdownMenuLabel>
+        <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <Link href="/dashboard">
+        <Link href={`/user?id=${user.id}`}>
           <DropdownMenuItem>Trang cá nhân</DropdownMenuItem>
         </Link>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={async () => {
-            await client.signOut();
-            router.push("/login");
-            router.refresh();
+            await client.signOut({
+              fetchOptions: {
+                onSuccess: () => {
+                  router.push("/login"); // redirect to login page
+                  router.refresh();
+                },
+              },
+            });
           }}
         >
           Đăng xuất
