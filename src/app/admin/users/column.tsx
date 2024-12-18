@@ -17,7 +17,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { deleteUser } from "@/lib/action/user/deleteUser";
-import { useRouter } from "next/navigation";
 
 export type User = {
   id: string;
@@ -32,10 +31,8 @@ const HandleClick = ({ id, name }: { id: string; name: string }) => {
 };
 
 const handleDelete = async (id: string) => {
-  const router = useRouter()
   try {
     await deleteUser(id); // Gọi server action
-    router.refresh()
     toast({
       title: "Xóa người dùng",
       description: "Đã xoá người dùng.",
