@@ -6,11 +6,11 @@ export default function page() {
       <div className='max-w-4xl mx-auto bg-white p-10 shadow-lg rounded-lg'>
         <h1 className="text-4xl font-bold py-5">Liên hệ</h1>
         <h2 className="text-3xl font-bold py-3">Địa chỉ văn phòng</h2>
-        <p className="text-lg mb-4">Tầng hầm của Bá Duy</p>
+        <p className="text-lg mb-4">Thủ Đức, Thành phố Hồ Chí Minh</p>
         <h2 className="text-3xl font-bold py-3">Dành cho nhà tuyển dụng</h2>
         <ul className="list-disc list-inside text-lg marker:text-red-500">
           <li>
-            Hãy gọi ngay cho đội ngũ Bóc lột của chúng tôi
+            Hãy gọi ngay cho đội ngũ Tuyển Chọn của chúng tôi
             <ul className="list-disc list-inside ml-5">
               <li><strong>HCM:</strong> +84 666 666 666</li>
               <li><strong>Hà Nội:</strong> +84 777 777 777</li>
