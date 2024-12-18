@@ -22,6 +22,7 @@ import { Search } from "lucide-react";
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import { SelectAreaType, SelectCompanyType } from "@/drizzle/schema/schema";
+import Link from "next/link";
 
 export function Companies({
   companies,
@@ -142,7 +143,9 @@ export function Companies({
                 </CardDescription>
               </CardContent>
               <CardFooter>
-                <Button className="w-full">Xem chi tiết</Button>
+                <Link href={`/companies/${company.slug}?id=${company.id}`}>
+                  <Button className="w-full">Xem chi tiết</Button>
+                </Link>
               </CardFooter>
             </Card>
           ))
