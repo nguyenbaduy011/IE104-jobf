@@ -18,6 +18,7 @@ import {
   SelectJobType,
   SelectCompanyType,
 } from "@/drizzle/schema/schema";
+import Chatbot from "./chatbot";
 
 export function Home({
   jobs,
@@ -60,6 +61,7 @@ export function Home({
   return (
     <div className="bg-gray-100 min-h-screen text-gray-800">
       {/* Header */}
+      <Chatbot/>
       <div className="bg-white shadow-md">
         <div className="max-w-7xl mx-auto py-4 flex flex-col gap-4 h-[300px] justify-center px-4">
           <h1 className="text-2xl font-bold">Việc làm tốt nhất</h1>
