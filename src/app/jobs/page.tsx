@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Button } from "@/components/ui/button";
 import {
   Banknote,
@@ -5,9 +6,10 @@ import {
   Heart,
   MapPin,
   MonitorCog,
+  Send,
 } from "lucide-react";
 
-export default function JobPage() {
+const JobPanel = () => {
   return (
     <div className="bg-gray-100 min-h-screen py-4">
       <div className="py-2 grid grid-cols-3 gap-6 max-w-7xl mx-auto">
@@ -21,7 +23,10 @@ export default function JobPage() {
                 <div>Lương</div>
               </div>
               <div className="w-full flex items-center my-4 gap-3">
-                <Button className="w-full font-bold">Ứng tuyển</Button>
+                <Button className="w-full font-bold">
+                  <Send />
+                  Ứng tuyển
+                </Button>
                 <Heart size={36} />
               </div>
               <div className="space-y-3 text-gray-600 text-sm">
@@ -49,22 +54,6 @@ export default function JobPage() {
             </div>
           </div>
           <div className="rounded-lg border bg-white px-4 py-6 space-y-6">
-            <div className="gap-1 flex flex-col">
-              <div className="text-2xl font-bold">
-                Lợi ích khi gia nhập công ty
-              </div>
-              <div>
-                <div>Competitive salary & up-to 16-month income / year</div>
-                <div>Competitive salary & up-to 16-month income / year</div>
-                <div>
-                  Competitive salary & up-to 16-month income / yearCompetitive
-                  salary & up-to 16-month income / year Competitive salary &
-                  up-to 16-month income / year Competitive salary & up-to
-                  16-month income / year
-                </div>
-              </div>
-            </div>
-            <div className="border"></div>
             <div className="gap-1 flex flex-col">
               <div className="text-2xl font-bold">Mô tả công việc</div>
               <div>
@@ -100,9 +89,7 @@ export default function JobPage() {
             </div>
             <div className="border"></div>
             <div className="gap-1 flex flex-col">
-              <div className="text-2xl font-bold">
-                Tại sao bạn sẽ yêu thích làm việc tại đây
-              </div>
+              <div className="text-2xl font-bold">Quyền lợi</div>
               <div>
                 <div>
                   13th month salary + Incentive bonus (Total remuneration
@@ -126,8 +113,58 @@ export default function JobPage() {
               </div>
             </div>
           </div>
+          {/* Các công việc liên quan */}
+          <div className="rounded-lg border bg-white">
+            <div className="py-5 px-4 space-y-3">
+              <div className="text-xl font-semibold border-b-2">
+                Các vị trí đang tuyển dụng (... vị trí)
+              </div>
+              {/* Job card */}
+              <div>
+                <div className="space-y-3 border border-gray-200 rounded-lg p-4 bg-amber-50 shadow-sm">
+                  <div className="text-xs text-gray-500 mb-2">
+                    Đăng 25 ngày trước
+                  </div>
+
+                  <div className="flex items-center my-2">
+                    <img
+                      src="https://via.placeholder.com/80" // Thay bằng link logo thực tế
+                      alt="Company Logo"
+                      className="w-20 h-20 rounded-sm mr-3"
+                    />
+                    <div>
+                      <div className="text-lg font-bold text-gray-800">
+                        Software Engineer (Android, Python)
+                      </div>
+                      <p className="font-medium text-gray-700">
+                        LG Electronics Development Vietnam (LGEDV)
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2 text-green-700 font-bold text-sm items-center">
+                    <Banknote />
+                    <div>Lương</div>
+                  </div>
+                  <div className="border border-dashed"></div>
+                  <div className="text-sm">
+                    {/* Địa điểm làm việc */}
+                    <div className="flex gap-2 items-center">
+                      <MapPin size={20} className="text-gray-400" />
+                      <div>Địa chỉ</div>
+                    </div>
+                    {/* Hình thức làm việc */}
+                    <div className="flex gap-2 items-center">
+                      <MonitorCog size={20} className="text-gray-400" />
+                      <div>Hình thức làm việc</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="col-span-1 space-y-4">
+
+        <div className="col-span-1 space-y-4 h-[calc(100vh-4rem)] sticky top-4">
           <div className="rounded-lg border bg-white px-5 py-6 space-y-4">
             <div className="flex gap-2 font-bold">
               <img
@@ -175,6 +212,14 @@ export default function JobPage() {
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+export default function JobPage() {
+  return (
+    <div>
+      <JobPanel />
     </div>
   );
 }
