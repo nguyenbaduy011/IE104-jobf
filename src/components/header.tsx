@@ -1,37 +1,52 @@
 import Link from "next/link";
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
+  // NavigationMenu,
+  // NavigationMenuContent,
+  // NavigationMenuItem,
   NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
+  // NavigationMenuList,
+  // NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { PlusCircle } from "lucide-react";
+import {  LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Profile } from "@/components/ui/profile";
-import React from "react";
+
 import { cn } from "@/lib/utils";
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
 
-const resolvedHeaders = await headers();
+import Image from "next/image";
+import React from "react";
 
-const session = await auth.api.getSession({
-  headers: resolvedHeaders,
-});
+type HeaderProps = {
+  session?: {
+    id: string;
+    userId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    expiresAt: Date;
+    token: string;
+    ipAddress?: string | null | undefined;
+    userAgent?: string | null | undefined;
+  };
+  user?: {
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    email: string;
+    emailVerified: boolean;
+    name: string;
+    image?: string | null;
+    role?: string;
+  };
+};
 
-export default function Header() {
+export default function Header({ session, user }: HeaderProps) {
   return (
     <nav className="flex px-20 py-2 justify-between items-center bg-primary-foreground sticky inset-x-0 top-0 w-full z-10">
-      <Link
-        className="font-bold text-4xl "
-        href="/"
-      >
-        JobF
+      <Link className="font-bold text-4xl " href="/">
+        <Image src="/jobf.svg" alt="JobF logo" width={100} height={100} />
       </Link>
       <div className="space-x-10 font-medium text-xl/6 tracking-tight flex items-center">
-        <NavigationMenu>
+        {/* <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger className="hover:text-black focus:bg-primary-foreground data-[active]:bg-primary-foreground/50 data-[state=open]:bg-bg-primary-foreground/50 text-xl/6 bg-primary-foreground hover:bg-primary-foreground transition-colors">
@@ -49,22 +64,35 @@ export default function Header() {
               </NavigationMenuContent>
             </NavigationMenuItem>
           </NavigationMenuList>
-        </NavigationMenu>
-        <Link className="hover:underline hover:underline-offset-8" href="#">
-          Hồ sơ & CV
+        </NavigationMenu> */}
+        <Link className="hover:underline hover:underline-offset-8" href="/companies">
+          Công ty
         </Link>
         <Link className="hover:underline hover:underline-offset-8" href="#">
           Blog
         </Link>
 
-        {session ? (
+        {session && user ? (
           <div className="flex items-center space-x-10">
-            <Button asChild className="w-full sm:w-auto">
+            {/* <Button asChild className="w-full sm:w-auto">
               <Link href="/blogs/createBlog">
                 <PlusCircle className="h-4 w-4" />
               </Link>
-            </Button>
-            <Profile user={session?.user} />
+            </Button> */}
+            {user.role === "admin" && (
+              <Button asChild variant="outline" className="w-full sm:w-auto">
+                <Link href="/admin">
+                  <LayoutDashboard className="h-4 w-4 mr-2" />
+                  Dashboard
+                </Link>
+              </Button>
+            )}
+            <Profile
+              user={{
+                ...user,
+                image: user.image ?? "",
+              }}
+            />
           </div>
         ) : (
           <Button asChild>

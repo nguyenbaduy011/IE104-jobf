@@ -84,10 +84,12 @@ export default function JobInformationForm() {
 
     try {
       await addJob(formData);
+      
       toast({
         title: "Tạo thông tin công việc thành công",
         description: "Thông tin công việc của bạn đã được tạo.",
       });
+      router.refresh();
       router.push("/");
     } catch (error) {
       console.log(error);
@@ -136,7 +138,7 @@ export default function JobInformationForm() {
                           >
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Chọn lĩnh vực công ty" />
+                                <SelectValue placeholder="Chọn công ty" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
