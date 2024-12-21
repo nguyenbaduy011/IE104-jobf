@@ -59,7 +59,7 @@ export default function Footer() {
                             </li>
                             <li>
                                 <a
-                                    href="../blog/quy-che-hoat-dong"
+                                    href="../policy/quy-che-hoat-dong"
                                     className="flex items-center py-2 hover:text-gray-600"
                                 >
                                     Quy chế hoạt động
