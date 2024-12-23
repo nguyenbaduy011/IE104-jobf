@@ -8,6 +8,7 @@ import {
   MonitorCog,
   Send,
 } from "lucide-react";
+import Image from "next/image";
 
 const JobPanel = () => {
   return (
@@ -167,9 +168,12 @@ const JobPanel = () => {
         <div className="col-span-1 space-y-4 h-[calc(100vh-4rem)] sticky top-4">
           <div className="rounded-lg border bg-white px-5 py-6 space-y-4">
             <div className="flex gap-2 font-bold">
-              <img
+              <Image
                 src="https://via.placeholder.com/120x120"
-                className="w-[120px] h-[120px] bg-red-600 flex-shrink-0"
+                className="bg-red-600 flex-shrink-0"
+                alt="Ảnh công ty"
+                width={120}
+                height={120}
               />
               <div className="text-lg">
                 LG Electronics Development Vietnam (LGEDV)

@@ -5,11 +5,10 @@ const AboutUs = () => {
     <main className="bg-gray-50 text-gray-800">
       {/* Hero Section */}
       <section className="bg-primary text-white py-20 px-10 text-center">
-        <h1 className="text-4xl font-bold md:text-6xl">
-          Về chúng tôi, JobF
-        </h1>
+        <h1 className="text-4xl font-bold md:text-6xl">Về chúng tôi, JobF</h1>
         <p className="mt-4 text-lg md:text-xl">
-          Kết nối tài năng công nghệ thông tin hàng đầu với những công ty tốt nhất tại Việt Nam.
+          Kết nối tài năng công nghệ thông tin hàng đầu với những công ty tốt
+          nhất tại Việt Nam.
         </p>
       </section>
 
@@ -40,7 +39,9 @@ const AboutUs = () => {
               key={index}
               className="p-6 border rounded-lg shadow-sm hover:shadow-md transition duration-300"
             >
-              <h3 className="text-xl font-medium text-primary">{value.title}</h3>
+              <h3 className="text-xl font-medium text-primary">
+                {value.title}
+              </h3>
               <p className="mt-2 text-gray-600">{value.description}</p>
             </div>
           ))}
@@ -62,10 +63,14 @@ const AboutUs = () => {
               Sứ mệnh của chúng tôi
             </h2>
             <p className="text-lg text-gray-600">
-              Sứ mệnh của chúng tôi là kết nối những tài năng công nghệ thông tin xuất sắc với các công ty đánh giá cao kỹ năng của họ, giúp họ phát triển và thành công trong sự nghiệp.
+              Sứ mệnh của chúng tôi là kết nối những tài năng công nghệ thông
+              tin xuất sắc với các công ty đánh giá cao kỹ năng của họ, giúp họ
+              phát triển và thành công trong sự nghiệp.
             </p>
             <p className="mt-4 text-lg text-gray-600">
-              Chúng tôi cam kết trao quyền cho các chuyên gia công nghệ thông tin bằng cách cung cấp cơ hội, tài nguyên và hướng dẫn để họ xuất sắc trong ngành công nghệ.
+              Chúng tôi cam kết trao quyền cho các chuyên gia công nghệ thông
+              tin bằng cách cung cấp cơ hội, tài nguyên và hướng dẫn để họ xuất
+              sắc trong ngành công nghệ.
             </p>
           </div>
         </div>
@@ -78,11 +83,26 @@ const AboutUs = () => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
           {[
-            { name: "DuyNguyen", role: "CTO", img: "https://via.placeholder.com/150" },
-            { name: "KhangPham", role: "COO", img: "https://via.placeholder.com/150" },
-            { name: "KhaiLe", role: "CEO", img: "https://via.placeholder.com/150" },
-            { name: "DuyLe", role: "CTO", img: "https://via.placeholder.com/150" },
-            { name: "PhucDao", role: "JANITOR", img: "https://via.placeholder.com/150" },
+            {
+              name: "DuyNguyen",
+              role: "CTO",
+              img: "https://via.placeholder.com/150",
+            },
+            {
+              name: "KhangPham",
+              role: "COO",
+              img: "https://via.placeholder.com/150",
+            },
+            {
+              name: "KhaiLe",
+              role: "CEO",
+              img: "https://via.placeholder.com/150",
+            },
+            {
+              name: "DuyLe",
+              role: "CTO",
+              img: "https://via.placeholder.com/150",
+            },
           ].map((member, index) => (
             <div
               key={index}
@@ -93,7 +113,9 @@ const AboutUs = () => {
                 alt={member.name}
                 className="w-24 h-24 mx-auto rounded-full mb-4"
               />
-              <h3 className="text-xl font-medium text-primary">{member.name}</h3>
+              <h3 className="text-xl font-medium text-primary">
+                {member.name}
+              </h3>
               <p className="mt-2 text-gray-600">{member.role}</p>
             </div>
           ))}
