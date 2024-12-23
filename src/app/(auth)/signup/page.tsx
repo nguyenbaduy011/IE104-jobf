@@ -29,27 +29,33 @@ import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
 import Link from "next/link";
 
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(2, {
-      message: "Tên người dùng phải có ít nhất 2 ký tự",
-    })
-    .max(30, {
-      message: "Tên người dùng không được vượt quá 30 ký tự",
+const formSchema = z
+  .object({
+    name: z
+      .string()
+      .min(2, {
+        message: "Tên người dùng phải có ít nhất 2 ký tự",
+      })
+      .max(30, {
+        message: "Tên người dùng không được vượt quá 30 ký tự",
+      }),
+    email: z.string().email({
+      message: "Email không hợp lệ",
     }),
-  email: z.string().email({
-    message: "Email không hợp lệ",
-  }),
-  password: z
-    .string()
-    .min(8, {
-      message: "Mật khẩu phải có ít nhất 8 ký tự",
-    })
-    .max(20, {
-      message: "Mật khẩu không được vượt quá 20 ký tự",
-    }),
-});
+    password: z
+      .string()
+      .min(8, {
+        message: "Mật khẩu phải có ít nhất 8 ký tự",
+      })
+      .regex(/[A-Z]/, { message: "Mật khẩu phải chứa ít nhất một chữ hoa" })
+      .regex(/[a-z]/, { message: "Mật khẩu phải chứa ít nhất một chữ thường" })
+      .regex(/[0-9]/, { message: "Mật khẩu phải chứa ít nhất một số" }),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Mật khẩu không khớp",
+    path: ["confirmPassword"],
+  });
 
 export default function SignUp() {
   const data = client.useSession();
@@ -169,6 +175,22 @@ export default function SignUp() {
                 render={({ field }) => (
                   <FormItem>
                     <Label>Mật khẩu</Label>
+                    <FormControl>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <Input {...field} type="password" className="pl-10" />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <Label>Xác nhận mật khẩu</Label>
                     <FormControl>
                       <div className="relative">
                         <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
