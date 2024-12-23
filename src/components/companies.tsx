@@ -115,6 +115,7 @@ export function Companies({
                   alt={`${company.name} cover`}
                   fill
                   style={{ objectFit: "cover" }}
+                  className="object-contain"
                   unoptimized
                 />
                 <div className="absolute -bottom-10 left-4">

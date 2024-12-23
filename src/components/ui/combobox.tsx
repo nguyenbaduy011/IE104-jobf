@@ -42,7 +42,7 @@ export function ComboboxDemo({ areas, onValueChange }: ComboboxDemoProps) {
         >
           <MapPin className="mr-2 h-4 w-4" />
           {value
-            ? areas.find((area) => area.id === value)?.name
+            ? areas.find((area) => area.name === value)?.name
             : "Tất cả tỉnh/ thành phố"}
           <ChevronDown
             className="ml-auto h-4 w-4 shrink-0 opacity-50"

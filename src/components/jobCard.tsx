@@ -3,6 +3,7 @@ import React from "react";
 import { SelectJobType, SelectCompanyType } from "@/drizzle/schema/schema";
 import { Briefcase, MapPin, Building, Code, Clock } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface JobCardProps {
   job: SelectJobType & { company: SelectCompanyType | null };
@@ -12,10 +13,13 @@ export function JobCard({ job }: JobCardProps) {
   return (
     <div className="bg-white border border-gray-200 rounded-md shadow hover:shadow-lg transition-shadow p-4 flex flex-col gap-3">
       <div className="flex items-center gap-4">
-        <img
+        <Image
           src={job.company?.avatar || "https://via.placeholder.com/60x60"}
           alt={`${job.company?.name || "Company"} logo`}
-          className="w-[60px] h-[60px] bg-gray-300 rounded-md object-cover"
+          className="bg-gray-300 rounded-none object-contain"
+          width={60}
+          height={60}
+          style={{ objectFit: "contain" }}
         />
         <div className="flex flex-col">
           <h2 className="text-lg font-semibold text-gray-800 truncate">
