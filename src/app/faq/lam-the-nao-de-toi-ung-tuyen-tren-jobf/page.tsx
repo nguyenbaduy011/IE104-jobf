@@ -12,6 +12,8 @@
 //                     </p>
 //                 </header>
 
+import Link from "next/link";
+
 //                 <div className="space-y-12">
 //                     <div className="flex items-start j space-x-6">
 //                         <div className="flex-shrink-0">
@@ -391,12 +393,12 @@ export default function faq_2() {
 
                 <p className="mt-8 text-lg text-center">
                     Để biết thêm thông tin, hãy quay lại{" "}
-                    <a
+                    <Link
                         href="/faq"
                         className="text-gray-600 font-medium underline hover:text-gray-800"
                     >
                         trang FAQ
-                    </a>
+                    </Link>
                     .
                 </p>
             </section>

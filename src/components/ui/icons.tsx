@@ -1,7 +1,8 @@
-import { LightbulbIcon as LucideProps } from "lucide-react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// import { LightbulbIcon as LucideProps } from "lucide-react";
 
 export const Icons = {
-  google: (props: LucideProps) => (
+  google: (props: any) => (
     <svg role="img" viewBox="0 0 24 24" {...props}>
       <path
         fill="currentColor"

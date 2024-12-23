@@ -1,11 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
   FormControl,
@@ -39,9 +37,14 @@ import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import { addJob } from "@/lib/action/job/addJob";
 import { SelectCompanyType } from "@/drizzle/schema/schema";
+import RichTextEditor from "@/components/richText/richTextEditor";
+import { Textarea } from "@/components/ui/textarea";
 
-export default function JobInformationForm() {
-  const [companies, setCompanies] = useState<SelectCompanyType[]>([]);
+export default function JobInformationForm({
+  companies,
+}: {
+  companies: SelectCompanyType[];
+}) {
   const router = useRouter();
 
   const form = useForm<JobValues>({
@@ -58,23 +61,6 @@ export default function JobInformationForm() {
     },
   });
 
-  useEffect(() => {
-    async function fetchCompanies() {
-      try {
-        const response = await fetch("/api/getCompany");
-        if (!response.ok) {
-          throw new Error("Lỗi khi lấy dữ liệu công ty");
-        }
-        const result = await response.json();
-        setCompanies(Array.isArray(result.company) ? result.company : []);
-      } catch (error) {
-        console.error(error);
-        setCompanies([]);
-      }
-    }
-    fetchCompanies();
-  }, []);
-
   async function onSubmit(values: JobValues) {
     const formData = new FormData();
 
@@ -84,7 +70,7 @@ export default function JobInformationForm() {
 
     try {
       await addJob(formData);
-      
+
       toast({
         title: "Tạo thông tin công việc thành công",
         description: "Thông tin công việc của bạn đã được tạo.",
@@ -131,7 +117,7 @@ export default function JobInformationForm() {
                       name="jobCompany"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Công ty</FormLabel>
+                          <FormLabel className="font-bold">Công ty</FormLabel>
                           <Select
                             onValueChange={field.onChange}
                             defaultValue={field.value}
@@ -163,7 +149,9 @@ export default function JobInformationForm() {
                       name="jobTitle"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Tiêu đề công việc</FormLabel>
+                          <FormLabel className="font-bold">
+                            Tiêu đề công việc
+                          </FormLabel>
                           <FormControl>
                             <Input
                               placeholder="Nhập tiêu đề công việc"
@@ -179,7 +167,7 @@ export default function JobInformationForm() {
                       name="salary"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Lương</FormLabel>
+                          <FormLabel className="font-bold">Lương</FormLabel>
                           <FormControl>
                             <Input
                               placeholder="Nhập lương hoặc khoảng lương"
@@ -195,7 +183,9 @@ export default function JobInformationForm() {
                       name="workingWay"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Hình thức làm việc</FormLabel>
+                          <FormLabel className="font-bold">
+                            Hình thức làm việc
+                          </FormLabel>
                           <FormControl>
                             <Input
                               placeholder="Nhập hình thức làm việc"
@@ -213,7 +203,9 @@ export default function JobInformationForm() {
                       name="requiredSkills"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Kỹ năng yêu cầu</FormLabel>
+                          <FormLabel className="font-bold">
+                            Kỹ năng yêu cầu
+                          </FormLabel>
                           <FormControl>
                             <Textarea
                               placeholder="Liệt kê ra các kỹ năng được yêu cầu"
@@ -230,12 +222,13 @@ export default function JobInformationForm() {
                       name="jobDescription"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Mô tả công việc</FormLabel>
+                          <FormLabel className="font-bold">
+                            Mô tả công việc
+                          </FormLabel>
                           <FormControl>
-                            <Textarea
+                            <RichTextEditor
+                              onChange={field.onChange}
                               placeholder="Cung cấp mô tả cụ thể hơn về công việc"
-                              className="h-32"
-                              {...field}
                             />
                           </FormControl>
                           <FormMessage />
@@ -247,12 +240,13 @@ export default function JobInformationForm() {
                       name="jobRequirements"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Yêu cầu công việc</FormLabel>
+                          <FormLabel className="font-bold">
+                            Yêu cầu công việc
+                          </FormLabel>
                           <FormControl>
-                            <Textarea
+                            <RichTextEditor
+                              onChange={field.onChange}
                               placeholder="Cung cấp yêu cầu cụ thể hơn về công việc"
-                              className="h-32"
-                              {...field}
                             />
                           </FormControl>
                           <FormMessage />
@@ -264,12 +258,11 @@ export default function JobInformationForm() {
                       name="benefits"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Phúc lợi</FormLabel>
+                          <FormLabel className="font-bold">Phúc lợi</FormLabel>
                           <FormControl>
-                            <Textarea
+                            <RichTextEditor
+                              onChange={field.onChange}
                               placeholder="Liệt kê các phúc lợi của công việc"
-                              className="h-20"
-                              {...field}
                             />
                           </FormControl>
                           <FormMessage />
