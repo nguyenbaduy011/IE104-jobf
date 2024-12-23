@@ -15,23 +15,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Dialog,
   DialogFooter,
   DialogTrigger,
   DialogClose,
   DialogContent,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Info, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -46,6 +40,8 @@ import { toast } from "@/hooks/use-toast";
 import { SelectCompanyType } from "@/drizzle/schema/schema";
 import { editJob } from "@/lib/action/job/editJob";
 import LoadingButton from "@/components/ui/loadingButton";
+import RichTextEditor from "@/components/richText/richTextEditor";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function EditJobForm({ job }: { job: any }) {
@@ -116,219 +112,210 @@ export default function EditJobForm({ job }: { job: any }) {
           Chỉnh sửa
         </Button>
       </DialogTrigger>
-      <DialogContent>
-        <ScrollArea className="h-full">
-          <div className="container mx-auto py-10">
-            <Card>
-              <CardHeader>
-                <CardTitle>Tạo thông tin công việc</CardTitle>
-                <CardDescription>
-                  Điền thông tin chi tiết để tạo công việc.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Form {...form}>
-                  <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-8"
+      <DialogContent className="sm:max-w-[900px] h-[600px] flex flex-col">
+        <DialogHeader>
+          <DialogTitle>Chỉnh sửa thông tin công việc</DialogTitle>
+          <DialogDescription>
+            Điền thông tin chi tiết để tạo công việc.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flex flex-col justify-between h-full">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              {/* Thông tin cơ bản */}
+
+              <Tabs defaultValue="basic">
+                <TabsList>
+                  <TabsTrigger value="basic">Thông tin cơ bản</TabsTrigger>
+                  <TabsTrigger value="details">Chi tiết công việc</TabsTrigger>
+                </TabsList>
+                <TabsContent value="basic" className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="jobCompany"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-bold">Công ty</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Chọn lĩnh vực công ty" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectGroup>
+                              {companies.map((company) => (
+                                <SelectItem
+                                  key={company.id}
+                                  value={company.name}
+                                >
+                                  {company.name}
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="jobTitle"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-bold">
+                          Tiêu đề công việc
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Nhập tiêu đề công việc"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="salary"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-bold">Lương</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Nhập lương hoặc khoảng lương"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="workingWay"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-bold">
+                          Hình thức làm việc
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Nhập hình thức làm việc"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </TabsContent>
+                <TabsContent value="details">
+                  <ScrollArea className="h-[350px]">
+                    <FormField
+                      control={form.control}
+                      name="requiredSkills"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-bold">
+                            Kỹ năng yêu cầu
+                          </FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="Liệt kê ra các kỹ năng được yêu cầu"
+                              className="h-10"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="jobDescription"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-bold">
+                            Mô tả công việc
+                          </FormLabel>
+                          <FormControl>
+                            <RichTextEditor
+                              onChange={field.onChange}
+                              initialContent={field.value}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="jobRequirements"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-bold">
+                            Yêu cầu công việc
+                          </FormLabel>
+                          <FormControl>
+                            <RichTextEditor
+                              onChange={field.onChange}
+                              initialContent={field.value}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="benefits"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-bold">Phúc lợi</FormLabel>
+                          <FormControl>
+                            <RichTextEditor
+                              onChange={field.onChange}
+                              initialContent={field.value}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </ScrollArea>
+                </TabsContent>
+              </Tabs>
+              <DialogFooter>
+                <div className="flex justify-end space-x-4">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => {
+                      return "/jobs";
+                    }}
                   >
-                    {/* Thông tin cơ bản */}
-                    <Tabs defaultValue="basic" className="w-full">
-                      <TabsList className="grid w-full grid-cols-2">
-                        <TabsTrigger value="basic">
-                          Thông tin cơ bản
-                        </TabsTrigger>
-                        <TabsTrigger value="details">
-                          Chi tiết công việc
-                        </TabsTrigger>
-                      </TabsList>
-                      <TabsContent value="basic" className="space-y-4">
-                        <FormField
-                          control={form.control}
-                          name="jobCompany"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Công ty</FormLabel>
-                              <Select
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}
-                              >
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Chọn lĩnh vực công ty" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  <SelectGroup>
-                                    {companies.map((company) => (
-                                      <SelectItem
-                                        key={company.id}
-                                        value={company.name}
-                                      >
-                                        {company.name}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectGroup>
-                                </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="jobTitle"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Tiêu đề công việc</FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder="Nhập tiêu đề công việc"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="salary"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Lương</FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder="Nhập lương hoặc khoảng lương"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="workingWay"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Hình thức làm việc</FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder="Nhập hình thức làm việc"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </TabsContent>
-                      <TabsContent value="details" className="space-y-4">
-                        <FormField
-                          control={form.control}
-                          name="requiredSkills"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Kỹ năng yêu cầu</FormLabel>
-                              <FormControl>
-                                <Textarea
-                                  placeholder="Liệt kê ra các kỹ năng được yêu cầu"
-                                  className="h-10"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="jobDescription"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Mô tả công việc</FormLabel>
-                              <FormControl>
-                                <Textarea
-                                  placeholder="Cung cấp mô tả cụ thể hơn về công việc"
-                                  className="h-32"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="jobRequirements"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Yêu cầu công việc</FormLabel>
-                              <FormControl>
-                                <Textarea
-                                  placeholder="Cung cấp yêu cầu cụ thể hơn về công việc"
-                                  className="h-32"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="benefits"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Phúc lợi</FormLabel>
-                              <FormControl>
-                                <Textarea
-                                  placeholder="Liệt kê các phúc lợi của công việc"
-                                  className="h-20"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </TabsContent>
-                    </Tabs>
-                    <div className="flex justify-end space-x-4">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => {
-                          return "/jobs";
-                        }}
-                      >
-                        Huỷ
-                      </Button>
-                      <DialogFooter>
-                        <DialogClose asChild>
-                          <LoadingButton
-                            type="submit"
-                            className="w-full"
-                            loading={isSubmitting}
-                          >
-                            Sửa
-                          </LoadingButton>
-                        </DialogClose>
-                      </DialogFooter>
-                    </div>
-                  </form>
-                </Form>
-              </CardContent>
-              <CardFooter className="flex justify-between">
-                <p className="text-sm text-muted-foreground">
-                  <Info className="h-4 w-4 inline-block mr-1" />
-                  Các phần đánh dấu * là phần được yêu cầu.
-                </p>
-              </CardFooter>
-            </Card>
-          </div>
-        </ScrollArea>
+                    Huỷ
+                  </Button>
+                  <DialogClose asChild>
+                    <LoadingButton
+                      type="submit"
+                      className="w-full"
+                      loading={isSubmitting}
+                    >
+                      Sửa
+                    </LoadingButton>
+                  </DialogClose>
+                </div>
+              </DialogFooter>
+            </form>
+          </Form>
+        </div>
       </DialogContent>
     </Dialog>
   );

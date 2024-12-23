@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useDropzone, FileWithPath, FileRejection } from "react-dropzone";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
   FormControl,
@@ -24,25 +23,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 import {
   Dialog,
   DialogFooter,
   DialogTrigger,
   DialogClose,
   DialogContent,
+  DialogTitle,
+  DialogDescription,
+  DialogHeader,
 } from "@/components/ui/dialog";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { X, Upload, Link, Info, Pencil } from "lucide-react";
+import { X, Upload, Link, Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { companySchema, CompanyValues } from "@/lib/validations";
 import { toast } from "@/hooks/use-toast";
@@ -242,495 +237,484 @@ export default function EditCompanyForm({ company }: { company: any }) {
           Chỉnh sửa
         </Button>
       </DialogTrigger>
-      <DialogContent>
-        <ScrollArea className="h-full">
-          <div className="container mx-auto py-10">
-            <Card>
-              <CardHeader>
-                <CardTitle>Tạo thông tin công ty</CardTitle>
-                <CardDescription>
-                  Điền thông tin chi tiết để tạo hồ sơ công ty của bạn.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Form {...form}>
-                  <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-8"
-                  >
-                    {/* Thông tin cơ bản */}
-                    <Tabs defaultValue="basic" className="w-full">
-                      <TabsList className="grid w-full grid-cols-3">
-                        <TabsTrigger value="basic">
-                          Thông tin cơ bản
-                        </TabsTrigger>
-                        <TabsTrigger value="details">
-                          Chi tiết công ty
-                        </TabsTrigger>
-                        <TabsTrigger value="contact">
-                          Thông tin liên lạc
-                        </TabsTrigger>
-                      </TabsList>
-                      {/* Thông tin cơ bản */}
-                      <TabsContent value="basic" className="space-y-4">
-                        <FormField
-                          control={form.control}
-                          name="name"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Tên công ty*</FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder="Nhập tên công ty"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="employeeNumber"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Số lượng nhân viên*</FormLabel>
-                              <FormControl>
-                                <Input
-                                  type="number"
-                                  placeholder="e.g. 1000"
-                                  {...field}
-                                  onChange={(e) => {
-                                    const value = e.target.valueAsNumber;
-                                    field.onChange(
-                                      value === 0
-                                        ? 0
-                                        : isNaN(value)
-                                        ? undefined
-                                        : value
-                                    );
-                                  }}
-                                  value={field.value ?? ""}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="website"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Website</FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder="https://www.example.com"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="companyIndustry"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Lĩnh vực</FormLabel>
-                              <Select
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}
-                              >
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Chọn lĩnh vực công ty" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  <SelectGroup>
-                                    {industries.map((industry) => (
-                                      <SelectItem
-                                        key={industry.id}
-                                        value={industry.name}
-                                      >
-                                        {industry.name}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectGroup>
-                                </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </TabsContent>
-                      {/* Chi tiết công ty */}
-                      <TabsContent value="details" className="space-y-4">
-                        <FormField
-                          control={form.control}
-                          name="coverImageType"
-                          render={({ field }) => (
-                            <FormItem className="space-y-3">
-                              <FormLabel>Ảnh bìa</FormLabel>
-                              <FormControl>
-                                <RadioGroup
-                                  onValueChange={field.onChange}
-                                  defaultValue={field.value}
-                                  className="flex flex-col space-y-1"
+      <DialogContent className="sm:max-w-[900px] h-[600px] flex flex-col">
+        <DialogHeader>
+          <DialogTitle>Chỉnh sửa thông tin công ty</DialogTitle>
+          <DialogDescription>
+            Điền thông tin chi tiết để tạo hồ sơ công ty của bạn.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flex flex-col justify-between h-full">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              {/* Thông tin cơ bản */}
+              <Tabs defaultValue="basic">
+                <TabsList className="grid w-full grid-cols-3">
+                  <TabsTrigger value="basic">Thông tin cơ bản</TabsTrigger>
+                  <TabsTrigger value="details">Chi tiết công ty</TabsTrigger>
+                  <TabsTrigger value="contact">Thông tin liên lạc</TabsTrigger>
+                </TabsList>
+                {/* Thông tin cơ bản */}
+                <TabsContent value="basic" className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-bold">
+                          Tên công ty*
+                        </FormLabel>
+                        <FormControl>
+                          <Input placeholder="Nhập tên công ty" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="employeeNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-bold">
+                          Số lượng nhân viên*
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="e.g. 1000"
+                            {...field}
+                            onChange={(e) => {
+                              const value = e.target.valueAsNumber;
+                              field.onChange(
+                                value === 0
+                                  ? 0
+                                  : isNaN(value)
+                                  ? undefined
+                                  : value
+                              );
+                            }}
+                            value={field.value ?? ""}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="website"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-bold">Website</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="https://www.example.com"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="companyIndustry"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-bold">Lĩnh vực</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Chọn lĩnh vực công ty" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectGroup>
+                              {industries.map((industry) => (
+                                <SelectItem
+                                  key={industry.id}
+                                  value={industry.name}
                                 >
-                                  <div className="flex items-center space-x-3 space-y-0">
-                                    <RadioGroupItem
-                                      value="upload"
-                                      id="coverImageUpload"
-                                    />
-                                    <Label htmlFor="coverImageUpload">
-                                      Tải lên hình ảnh
-                                    </Label>
-                                  </div>
-                                  <div className="flex items-center space-x-3 space-y-0">
-                                    <RadioGroupItem
-                                      value="link"
-                                      id="coverImageLink"
-                                    />
-                                    <Label htmlFor="coverImageLink">
-                                      Đường dẫn hình ảnh
-                                    </Label>
-                                  </div>
-                                </RadioGroup>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                                  {industry.name}
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </TabsContent>
+                {/* Chi tiết công ty */}
+                <TabsContent value="details" className="space-y-4">
+                  <ScrollArea className="h-[350px]">
+                    <FormField
+                      control={form.control}
+                      name="coverImageType"
+                      render={({ field }) => (
+                        <FormItem className="space-y-3">
+                          <FormLabel className="font-bold">Ảnh bìa</FormLabel>
+                          <FormControl>
+                            <RadioGroup
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                              className="flex flex-col space-y-1"
+                            >
+                              <div className="flex items-center space-x-3 space-y-0">
+                                <RadioGroupItem
+                                  value="upload"
+                                  id="coverImageUpload"
+                                />
+                                <Label htmlFor="coverImageUpload">
+                                  Tải lên hình ảnh
+                                </Label>
+                              </div>
+                              <div className="flex items-center space-x-3 space-y-0">
+                                <RadioGroupItem
+                                  value="link"
+                                  id="coverImageLink"
+                                />
+                                <Label htmlFor="coverImageLink">
+                                  Đường dẫn hình ảnh
+                                </Label>
+                              </div>
+                            </RadioGroup>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                        <FormField
-                          control={form.control}
-                          name="coverImage"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormControl>
-                                {form.watch("coverImageType") === "upload" ? (
-                                  <ImageDropzone
-                                    onDrop={onDrop(setCoverImageFile)}
-                                    acceptedFiles={coverAcceptedFiles}
-                                    fileRejections={coverFileRejections}
-                                    getRootProps={getCoverRootProps}
-                                    getInputProps={getCoverInputProps}
-                                    isDragActive={isCoverDragActive}
-                                    file={coverImageFile}
-                                    onRemove={() => {
-                                      setCoverImageFile(null);
-                                      form.setValue("coverImage", "");
-                                    }}
-                                  />
-                                ) : (
-                                  <div className="flex space-x-2">
-                                    <Input
-                                      placeholder="Enter cover image URL"
-                                      {...field}
-                                    />
-                                    <Button
-                                      type="button"
-                                      size="icon"
-                                      variant="outline"
-                                    >
-                                      <Link className="h-4 w-4" />
-                                      <span className="sr-only">
-                                        Lấy hình ảnh
-                                      </span>
-                                    </Button>
-                                  </div>
-                                )}
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="avatarType"
-                          render={({ field }) => (
-                            <FormItem className="space-y-3">
-                              <FormLabel>Ảnh đại diện</FormLabel>
-                              <FormControl>
-                                <RadioGroup
-                                  onValueChange={field.onChange}
-                                  defaultValue={field.value}
-                                  className="flex flex-col space-y-1"
-                                >
-                                  <div className="flex items-center space-x-3 space-y-0">
-                                    <RadioGroupItem
-                                      value="upload"
-                                      id="avatarUpload"
-                                    />
-                                    <Label htmlFor="avatarUpload">
-                                      Tải lên hình ảnh
-                                    </Label>
-                                  </div>
-                                  <div className="flex items-center space-x-3 space-y-0">
-                                    <RadioGroupItem
-                                      value="link"
-                                      id="avatarLink"
-                                    />
-                                    <Label htmlFor="avatarLink">
-                                      Đường dẫn hình ảnh
-                                    </Label>
-                                  </div>
-                                </RadioGroup>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="avatar"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormControl>
-                                {form.watch("avatarType") === "upload" ? (
-                                  <ImageDropzone
-                                    onDrop={onDrop(setAvatarFile)}
-                                    acceptedFiles={avatarAcceptedFiles}
-                                    fileRejections={avatarFileRejections}
-                                    getRootProps={getAvatarRootProps}
-                                    getInputProps={getAvatarInputProps}
-                                    isDragActive={isAvatarDragActive}
-                                    file={avatarFile}
-                                    onRemove={() => {
-                                      setAvatarFile(null);
-                                      form.setValue("avatar", "");
-                                    }}
-                                  />
-                                ) : (
-                                  <div className="flex space-x-2">
-                                    <Input
-                                      placeholder="Enter avatar image URL"
-                                      {...field}
-                                    />
-                                    <Button
-                                      type="button"
-                                      size="icon"
-                                      variant="outline"
-                                    >
-                                      <Link className="h-4 w-4" />
-                                      <span className="sr-only">
-                                        Lấy hình ảnh
-                                      </span>
-                                    </Button>
-                                  </div>
-                                )}
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="companyModel"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Mô hình công ty</FormLabel>
-                              <FormControl>
+                    <FormField
+                      control={form.control}
+                      name="coverImage"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            {form.watch("coverImageType") === "upload" ? (
+                              <ImageDropzone
+                                onDrop={onDrop(setCoverImageFile)}
+                                acceptedFiles={coverAcceptedFiles}
+                                fileRejections={coverFileRejections}
+                                getRootProps={getCoverRootProps}
+                                getInputProps={getCoverInputProps}
+                                isDragActive={isCoverDragActive}
+                                file={coverImageFile}
+                                onRemove={() => {
+                                  setCoverImageFile(null);
+                                  form.setValue("coverImage", "");
+                                }}
+                              />
+                            ) : (
+                              <div className="flex space-x-2">
                                 <Input
-                                  placeholder="e.g. B2B, B2C, etc."
+                                  placeholder="Enter cover image URL"
                                   {...field}
                                 />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="introduction"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Giới thiệu công ty</FormLabel>
-                              <FormControl>
-                                {/* <Textarea
+                                <Button
+                                  type="button"
+                                  size="icon"
+                                  variant="outline"
+                                >
+                                  <Link className="h-4 w-4" />
+                                  <span className="sr-only">Lấy hình ảnh</span>
+                                </Button>
+                              </div>
+                            )}
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="avatarType"
+                      render={({ field }) => (
+                        <FormItem className="space-y-3">
+                          <FormLabel className="font-bold">
+                            Ảnh đại diện
+                          </FormLabel>
+                          <FormControl>
+                            <RadioGroup
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                              className="flex flex-col space-y-1"
+                            >
+                              <div className="flex items-center space-x-3 space-y-0">
+                                <RadioGroupItem
+                                  value="upload"
+                                  id="avatarUpload"
+                                />
+                                <Label htmlFor="avatarUpload">
+                                  Tải lên hình ảnh
+                                </Label>
+                              </div>
+                              <div className="flex items-center space-x-3 space-y-0">
+                                <RadioGroupItem value="link" id="avatarLink" />
+                                <Label htmlFor="avatarLink">
+                                  Đường dẫn hình ảnh
+                                </Label>
+                              </div>
+                            </RadioGroup>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="avatar"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            {form.watch("avatarType") === "upload" ? (
+                              <ImageDropzone
+                                onDrop={onDrop(setAvatarFile)}
+                                acceptedFiles={avatarAcceptedFiles}
+                                fileRejections={avatarFileRejections}
+                                getRootProps={getAvatarRootProps}
+                                getInputProps={getAvatarInputProps}
+                                isDragActive={isAvatarDragActive}
+                                file={avatarFile}
+                                onRemove={() => {
+                                  setAvatarFile(null);
+                                  form.setValue("avatar", "");
+                                }}
+                              />
+                            ) : (
+                              <div className="flex space-x-2">
+                                <Input
+                                  placeholder="Enter avatar image URL"
+                                  {...field}
+                                />
+                                <Button
+                                  type="button"
+                                  size="icon"
+                                  variant="outline"
+                                >
+                                  <Link className="h-4 w-4" />
+                                  <span className="sr-only">Lấy hình ảnh</span>
+                                </Button>
+                              </div>
+                            )}
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="companyModel"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-bold">
+                            Mô hình công ty
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="e.g. B2B, B2C, etc."
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="introduction"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-bold">
+                            Giới thiệu công ty
+                          </FormLabel>
+                          <FormControl>
+                            {/* <Textarea
                               placeholder="Mô tả công ty của bạn, bao gồm lịch sử, thành tích, đối tác và văn hóa."
                               className="h-32"
                               {...field}
                             /> */}
-                                <RichTextEditor onChange={field.onChange} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="benefits"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Phúc lợi</FormLabel>
-                              <FormControl>
-                                <Textarea
-                                  placeholder="Liệt kê những phúc lợi mà công ty bạn cung cấp."
-                                  className="h-32"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </TabsContent>
-                      {/* Thông tin liên lạc */}
-                      <TabsContent value="contact" className="space-y-4">
-                        <FormField
-                          control={form.control}
-                          name="country"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Quốc gia</FormLabel>
-                              <FormControl>
-                                <Input placeholder="e.g. Việt Nam" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="address"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Địa chỉ</FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder="Nhập địa chỉ công ty"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="email"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Email</FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder="contact@company.com"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="phoneNumber"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Số điện thoại</FormLabel>
-                              <FormControl>
-                                <Input placeholder="+1234567890" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="workingTime"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Thời gian làm việc</FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder="e.g. Thứ 2 - Thứ 6, 9 AM - 5 PM"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="overtime"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Tăng ca</FormLabel>
-                              <FormControl>
-                                <Input placeholder="Có trợ cấp" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="companyArea"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Khu vực</FormLabel>
-                              <Select
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}
-                              >
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Chọn khu vực" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  {areas.map((area) => (
-                                    <SelectItem key={area.id} value={area.name}>
-                                      {area.name}
-                                    </SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </TabsContent>
-                    </Tabs>
-                    <div className="flex justify-end space-x-4">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => {
-                          return "/companies";
-                        }}
-                      >
-                        Huỷ
-                      </Button>
-                      <DialogFooter>
-                        <DialogClose asChild>
-                          <LoadingButton
-                            type="submit"
-                            className="w-full"
-                            loading={isSubmitting}
+                            <RichTextEditor
+                              onChange={field.onChange}
+                              initialContent={field.value}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="benefits"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-bold">Phúc lợi</FormLabel>
+                          <FormControl>
+                            <RichTextEditor
+                              onChange={field.onChange}
+                              initialContent={field.value}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </ScrollArea>
+                </TabsContent>
+                {/* Thông tin liên lạc */}
+                <TabsContent value="contact" className="space-y-4">
+                  <ScrollArea className="h-[350px]">
+                    <FormField
+                      control={form.control}
+                      name="country"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-bold">Quốc gia</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g. Việt Nam" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="address"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-bold">Địa chỉ</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Nhập địa chỉ công ty"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-bold">Email</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="contact@company.com"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="phoneNumber"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-bold">
+                            Số điện thoại
+                          </FormLabel>
+                          <FormControl>
+                            <Input placeholder="+1234567890" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="workingTime"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-bold">
+                            Thời gian làm việc
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="e.g. Thứ 2 - Thứ 6, 9 AM - 5 PM"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="overtime"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-bold">Tăng ca</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Có trợ cấp" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="companyArea"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-bold">Khu vực</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
                           >
-                            Sửa
-                          </LoadingButton>
-                        </DialogClose>
-                      </DialogFooter>
-                    </div>
-                  </form>
-                </Form>
-              </CardContent>
-              <CardFooter className="flex justify-between">
-                <p className="text-sm text-muted-foreground">
-                  <Info className="h-4 w-4 inline-block mr-1" />
-                  Các phần đánh dấu * là phần được yêu cầu.
-                </p>
-              </CardFooter>
-            </Card>
-          </div>
-        </ScrollArea>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Chọn khu vực" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {areas.map((area) => (
+                                <SelectItem key={area.id} value={area.name}>
+                                  {area.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </ScrollArea>
+                </TabsContent>
+              </Tabs>
+              <DialogFooter>
+                <div className="flex justify-end space-x-4">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => {
+                      return "/companies";
+                    }}
+                  >
+                    Huỷ
+                  </Button>
+                  <DialogClose asChild>
+                    <LoadingButton
+                      type="submit"
+                      className="w-full"
+                      loading={isSubmitting}
+                    >
+                      Sửa
+                    </LoadingButton>
+                  </DialogClose>
+                </div>
+              </DialogFooter>
+            </form>
+          </Form>
+        </div>
       </DialogContent>
     </Dialog>
   );
