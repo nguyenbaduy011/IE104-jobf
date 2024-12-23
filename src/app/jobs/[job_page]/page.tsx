@@ -5,16 +5,32 @@ import { company, job } from "@/drizzle/schema/schema";
 import { count, eq } from "drizzle-orm";
 import {
   Banknote,
+  Briefcase,
+  Building2,
   CalendarDays,
+  Clock,
+  ExternalLink,
+  Globe,
+  GraduationCap,
   Heart,
   MapPin,
   MonitorCog,
   Send,
+  Trophy,
+  Users,
 } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-
 interface jobProps {
   searchParams: {
     id: string;
@@ -64,7 +80,228 @@ export default async function JobPage({ searchParams }: jobProps) {
   const relatedJobCount = related_jobs[0]?.count ?? 0;
 
   return (
-    <div className="bg-gray-100 min-h-screen py-4">
+    <div className="min-h-screen bg-gray-50/50 py-6 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Job Header */}
+            <Card>
+              <CardContent className="pt-6">
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                      {job_page?.jobTitle}
+                    </h1>
+                    <Link
+                      href={`/companies/${job_company?.slug}?id=${job_company?.id}`}
+                      className="text-lg text-gray-700 hover:text-gray-900 transition-colors"
+                    >
+                      {job_company?.name}
+                    </Link>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-green-700">
+                    <Banknote className="h-5 w-5" />
+                    <span className="font-bold text-lg">
+                      {job_page?.salary || "Thương lượng"}
+                    </span>
+                  </div>
+
+                  <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+                    <div className="flex items-center gap-2">
+                      <MapPin className="h-4 w-4 text-gray-400" />
+                      <span>
+                        {job_company?.address || "Chưa cập nhật địa điểm"}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <MonitorCog className="h-4 w-4 text-gray-400" />
+                      <span>{job_page?.workingWay || "Chưa cập nhật"}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CalendarDays className="h-4 w-4 text-gray-400" />
+                      <span>Đăng: {formattedDate}</span>
+                    </div>
+                  </div>
+
+                  {job_page?.requiredSkills && (
+                    <div className="flex flex-wrap gap-2">
+                      {job_page?.requiredSkills
+                        .split(",")
+                        .map((skill, index) => (
+                          <Badge key={index} variant="secondary">
+                            {skill.trim()}
+                          </Badge>
+                        ))}
+                    </div>
+                  )}
+
+                  <div className="flex gap-3">
+                    <Button size="lg" className="flex-1">
+                      <Send className="mr-2 h-4 w-4" />
+                      Ứng tuyển ngay
+                    </Button>
+                    <Button size="lg" variant="outline">
+                      <Heart className="h-5 w-5" />
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Job Details */}
+            <Card>
+              <CardContent className="pt-6 space-y-6">
+                {/* Job Description */}
+                <div className="space-y-3">
+                  <h2 className="text-xl font-semibold flex items-center gap-2">
+                    <Briefcase className="h-5 w-5 text-gray-500" />
+                    Mô tả công việc
+                  </h2>
+                  <div className="prose prose-gray max-w-none">
+                    {job_page?.jobDescription}
+                  </div>
+                </div>
+
+                <Separator />
+
+                {/* Job Requirements */}
+                <div className="space-y-3">
+                  <h2 className="text-xl font-semibold flex items-center gap-2">
+                    <GraduationCap className="h-5 w-5 text-gray-500" />
+                    Yêu cầu công việc
+                  </h2>
+                  <div className="prose prose-gray max-w-none">
+                    {job_page?.jobRequirements}
+                  </div>
+                </div>
+
+                <Separator />
+
+                {/* Benefits */}
+                <div className="space-y-3">
+                  <h2 className="text-xl font-semibold flex items-center gap-2">
+                    <Trophy className="h-5 w-5 text-gray-500" />
+                    Quyền lợi
+                  </h2>
+                  <div className="prose prose-gray max-w-none">
+                    {job_page?.benefits}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Related Jobs */}
+            {job_company && relatedJobCount > 0 && (
+              <RelatedJobs companyID={Number(job_page?.companyID)} />
+            )}
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-6">
+            <div className="lg:sticky lg:top-6">
+              <Card>
+                <CardHeader>
+                  <Link
+                    href={`/companies/${job_company?.slug}?id=${job_company?.id}`}
+                    className="flex items-start gap-4 group"
+                  >
+                    <div className="relative w-20 h-20 flex-shrink-0">
+                      <Image
+                        src={job_company?.avatar || "/placeholder.svg"}
+                        alt={`${job_company?.name || "Company"} logo`}
+                        fill
+                        className="rounded-lg object-contain group-hover:scale-105 transition-transform duration-200"
+                        sizes="80px"
+                      />
+                    </div>
+                    <div>
+                      <CardTitle className="group-hover:text-primary transition-colors">
+                        {job_company?.name}
+                      </CardTitle>
+                      <CardDescription>
+                        Xem thông tin công ty
+                        <ExternalLink className="ml-1 h-3 w-3 inline" />
+                      </CardDescription>
+                    </div>
+                  </Link>
+                </CardHeader>
+
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-gray-500 flex items-center gap-2">
+                        <Building2 className="h-4 w-4" />
+                        Mô hình
+                      </span>
+                      <span className="font-medium">
+                        {job_company?.companyModel || "Chưa cập nhật"}
+                      </span>
+                    </div>
+
+                    <Separator />
+
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-gray-500 flex items-center gap-2">
+                        <Users className="h-4 w-4" />
+                        Quy mô
+                      </span>
+                      <span className="font-medium">
+                        {job_company?.employeeNumber
+                          ? `${job_company.employeeNumber}+ nhân viên`
+                          : "Chưa cập nhật"}
+                      </span>
+                    </div>
+
+                    <Separator />
+
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-gray-500 flex items-center gap-2">
+                        <Globe className="h-4 w-4" />
+                        Quốc gia
+                      </span>
+                      <span className="font-medium">
+                        {job_company?.country || "Chưa cập nhật"}
+                      </span>
+                    </div>
+
+                    <Separator />
+
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-gray-500 flex items-center gap-2">
+                        <Clock className="h-4 w-4" />
+                        Giờ làm việc
+                      </span>
+                      <span className="font-medium">
+                        {job_company?.workingTime || "Chưa cập nhật"}
+                      </span>
+                    </div>
+
+                    {job_company?.overtime && (
+                      <>
+                        <Separator />
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="text-gray-500">OT</span>
+                          <span className="font-medium">
+                            {job_company.overtime}
+                          </span>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+{
+  /* <div className="bg-gray-100 min-h-screen py-4">
       <div className="py-2 grid grid-cols-3 gap-6 max-w-7xl mx-auto">
         <div className="col-span-2 space-y-4">
           <div className="rounded-lg border bg-white px-4 py-6">
@@ -83,22 +320,18 @@ export default async function JobPage({ searchParams }: jobProps) {
                 <Heart size={36} />
               </div>
               <div className="space-y-3 text-gray-600 text-sm">
-                {/* Địa điểm làm việc */}
                 <div className="flex gap-2 items-center">
                   <MapPin size={20} className="text-gray-400" />
                   <div>Địa điểm: {job_company?.address}</div>
                 </div>
-                {/* Hình thức làm việc */}
                 <div className="flex gap-2 items-center">
                   <MonitorCog size={20} className="text-gray-400" />
                   <div>Hình thức làm việc: {job_page?.workingWay}</div>
                 </div>
-                {/* Ngày đăng */}
                 <div className="flex gap-2 items-center">
                   <CalendarDays size={20} className="text-gray-400" />
                   <div>Ngày đăng: {formattedDate}</div>
                 </div>
-                {/* Kỹ năng yêu cầu */}
                 <div className="flex gap-2 items-center">
                   <div>Kỹ năng: </div>
                   <div>{job_page?.requiredSkills}</div>
@@ -124,7 +357,6 @@ export default async function JobPage({ searchParams }: jobProps) {
               <div>{job_page?.benefits}</div>
             </div>
           </div>
-          {/* Các công việc liên quan */}
           {job_company && relatedJobCount > 0 && (
             <RelatedJobs companyID={Number(job_page?.companyID)} />
           )}
@@ -191,6 +423,5 @@ export default async function JobPage({ searchParams }: jobProps) {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div> */
 }
