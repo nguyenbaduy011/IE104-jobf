@@ -255,7 +255,9 @@ export default function CompanyInformationForm() {
                       name="name"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Tên công ty*</FormLabel>
+                          <FormLabel className="font-bold">
+                            Tên công ty*
+                          </FormLabel>
                           <FormControl>
                             <Input placeholder="Nhập tên công ty" {...field} />
                           </FormControl>
@@ -268,7 +270,9 @@ export default function CompanyInformationForm() {
                       name="employeeNumber"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Số lượng nhân viên*</FormLabel>
+                          <FormLabel className="font-bold">
+                            Số lượng nhân viên*
+                          </FormLabel>
                           <FormControl>
                             <Input
                               type="number"
@@ -296,7 +300,7 @@ export default function CompanyInformationForm() {
                       name="website"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Website</FormLabel>
+                          <FormLabel className="font-bold">Website</FormLabel>
                           <FormControl>
                             <Input
                               placeholder="https://www.example.com"
@@ -312,7 +316,7 @@ export default function CompanyInformationForm() {
                       name="companyIndustry"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Lĩnh vực</FormLabel>
+                          <FormLabel className="font-bold">Lĩnh vực</FormLabel>
                           <Select
                             onValueChange={field.onChange}
                             defaultValue={field.value}
@@ -347,7 +351,7 @@ export default function CompanyInformationForm() {
                       name="coverImageType"
                       render={({ field }) => (
                         <FormItem className="space-y-3">
-                          <FormLabel>Ảnh bìa</FormLabel>
+                          <FormLabel className="font-bold">Ảnh bìa</FormLabel>
                           <FormControl>
                             <RadioGroup
                               onValueChange={field.onChange}
@@ -425,7 +429,9 @@ export default function CompanyInformationForm() {
                       name="avatarType"
                       render={({ field }) => (
                         <FormItem className="space-y-3">
-                          <FormLabel>Ảnh đại diện</FormLabel>
+                          <FormLabel className="font-bold">
+                            Ảnh đại diện
+                          </FormLabel>
                           <FormControl>
                             <RadioGroup
                               onValueChange={field.onChange}
@@ -499,7 +505,9 @@ export default function CompanyInformationForm() {
                       name="companyModel"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Mô hình công ty</FormLabel>
+                          <FormLabel className="font-bold">
+                            Mô hình công ty
+                          </FormLabel>
                           <FormControl>
                             <Input
                               placeholder="e.g. B2B, B2C, etc."
@@ -515,14 +523,19 @@ export default function CompanyInformationForm() {
                       name="introduction"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Giới thiệu công ty</FormLabel>
+                          <FormLabel className="font-bold">
+                            Giới thiệu công ty
+                          </FormLabel>
                           <FormControl>
                             {/* <Textarea
                               placeholder="Mô tả công ty của bạn, bao gồm lịch sử, thành tích, đối tác và văn hóa."
                               className="h-32"
                               {...field}
                             /> */}
-                            <RichTextEditor onChange={field.onChange} />
+                            <RichTextEditor
+                              onChange={field.onChange}
+                              placeholder="Mô tả công ty của bạn, bao gồm lịch sử, thành tích, đối tác và văn hóa."
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -533,14 +546,17 @@ export default function CompanyInformationForm() {
                       name="benefits"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Phúc lợi</FormLabel>
+                          <FormLabel className="font-bold">Phúc lợi</FormLabel>
                           <FormControl>
                             {/* <Textarea
                               placeholder="Liệt kê những phúc lợi mà công ty bạn cung cấp."
                               className="h-32"
                               {...field}
                             /> */}
-                            <RichTextEditor onChange={field.onChange}/>
+                            <RichTextEditor
+                              onChange={field.onChange}
+                              placeholder="Liệt kê những phúc lợi mà công ty bạn cung cấp."
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -554,7 +570,7 @@ export default function CompanyInformationForm() {
                       name="country"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Quốc gia</FormLabel>
+                          <FormLabel className="font-bold">Quốc gia</FormLabel>
                           <FormControl>
                             <Input placeholder="e.g. Việt Nam" {...field} />
                           </FormControl>
@@ -567,7 +583,7 @@ export default function CompanyInformationForm() {
                       name="address"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Địa chỉ</FormLabel>
+                          <FormLabel className="font-bold">Địa chỉ</FormLabel>
                           <FormControl>
                             <Input
                               placeholder="Nhập địa chỉ công ty"
@@ -583,7 +599,7 @@ export default function CompanyInformationForm() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Email</FormLabel>
+                          <FormLabel className="font-bold">Email</FormLabel>
                           <FormControl>
                             <Input
                               placeholder="contact@company.com"
@@ -599,7 +615,9 @@ export default function CompanyInformationForm() {
                       name="phoneNumber"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Số điện thoại</FormLabel>
+                          <FormLabel className="font-bold">
+                            Số điện thoại
+                          </FormLabel>
                           <FormControl>
                             <Input placeholder="+1234567890" {...field} />
                           </FormControl>
@@ -612,7 +630,9 @@ export default function CompanyInformationForm() {
                       name="workingTime"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Thời gian làm việc</FormLabel>
+                          <FormLabel className="font-bold">
+                            Thời gian làm việc
+                          </FormLabel>
                           <FormControl>
                             <Input
                               placeholder="e.g. Thứ 2 - Thứ 6, 9 AM - 5 PM"
@@ -628,7 +648,7 @@ export default function CompanyInformationForm() {
                       name="overtime"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Tăng ca</FormLabel>
+                          <FormLabel className="font-bold">Tăng ca</FormLabel>
                           <FormControl>
                             <Input placeholder="Có trợ cấp" {...field} />
                           </FormControl>
@@ -641,7 +661,7 @@ export default function CompanyInformationForm() {
                       name="companyArea"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Khu vực</FormLabel>
+                          <FormLabel className="font-bold">Khu vực</FormLabel>
                           <Select
                             onValueChange={field.onChange}
                             defaultValue={field.value}

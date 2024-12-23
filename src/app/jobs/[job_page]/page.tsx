@@ -26,6 +26,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import parse, {
+  domToReact,
+  HTMLReactParserOptions,
+  Element,
+  DOMNode,
+} from "html-react-parser";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
@@ -66,6 +72,36 @@ export default async function JobPage({ searchParams }: jobProps) {
       redirect("/");
     }
   }
+
+  const options: HTMLReactParserOptions = {
+    replace(domNode) {
+      if (domNode instanceof Element && domNode.attribs) {
+        const { name, children } = domNode;
+
+        if (name === "ul") {
+          return (
+            <ul className="list-disc ml-5">
+              {domToReact(children as DOMNode[], options)}
+            </ul>
+          );
+        }
+
+        if (name === "ol") {
+          return (
+            <ol className="list-decimal ml-5">
+              {domToReact(children as DOMNode[], options)}
+            </ol>
+          );
+        }
+
+        if (name === "p") {
+          return (
+            <p className="mb-4">{domToReact(children as DOMNode[], options)}</p>
+          );
+        }
+      }
+    },
+  };
 
   const formattedDate = job_page?.createdAt
     ? new Date(job_page.createdAt).toLocaleDateString("vi-VN")
@@ -138,10 +174,12 @@ export default async function JobPage({ searchParams }: jobProps) {
                   )}
 
                   <div className="flex gap-3">
-                    <Button size="lg" className="flex-1">
-                      <Send className="mr-2 h-4 w-4" />
-                      Ứng tuyển ngay
-                    </Button>
+                    <Link href={"/jobs/pdf-sendmail"}>
+                      <Button size="lg" className="flex-1">
+                        <Send className="mr-2 h-4 w-4" />
+                        Ứng tuyển ngay
+                      </Button>
+                    </Link>
                     <Button size="lg" variant="outline">
                       <Heart className="h-5 w-5" />
                     </Button>
@@ -150,49 +188,55 @@ export default async function JobPage({ searchParams }: jobProps) {
               </CardContent>
             </Card>
 
-            {/* Job Details */}
+            {/* Chi tiết công việc */}
             <Card>
               <CardContent className="pt-6 space-y-6">
-                {/* Job Description */}
+                {/* Mô tả công việc */}
                 <div className="space-y-3">
                   <h2 className="text-xl font-semibold flex items-center gap-2">
                     <Briefcase className="h-5 w-5 text-gray-500" />
                     Mô tả công việc
                   </h2>
                   <div className="prose prose-gray max-w-none">
-                    {job_page?.jobDescription}
+                    {job_page?.jobDescription
+                      ? parse(job_page?.jobDescription, options)
+                      : "Không có thông tin mô tả công việc."}
                   </div>
                 </div>
 
                 <Separator />
 
-                {/* Job Requirements */}
+                {/* Yêu cầu công việc */}
                 <div className="space-y-3">
                   <h2 className="text-xl font-semibold flex items-center gap-2">
                     <GraduationCap className="h-5 w-5 text-gray-500" />
                     Yêu cầu công việc
                   </h2>
                   <div className="prose prose-gray max-w-none">
-                    {job_page?.jobRequirements}
+                    {job_page?.jobRequirements
+                      ? parse(job_page?.jobRequirements, options)
+                      : "Không có thông tin yêu cầu công việc."}
                   </div>
                 </div>
 
                 <Separator />
 
-                {/* Benefits */}
+                {/* Quyền lợi */}
                 <div className="space-y-3">
                   <h2 className="text-xl font-semibold flex items-center gap-2">
                     <Trophy className="h-5 w-5 text-gray-500" />
                     Quyền lợi
                   </h2>
                   <div className="prose prose-gray max-w-none">
-                    {job_page?.benefits}
+                    {job_page?.benefits
+                      ? parse(job_page?.benefits, options)
+                      : "Không có thông tin quyền lợi."}
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Related Jobs */}
+            {/* Công việc liên quan */}
             {job_company && relatedJobCount > 0 && (
               <RelatedJobs companyID={Number(job_page?.companyID)} />
             )}
