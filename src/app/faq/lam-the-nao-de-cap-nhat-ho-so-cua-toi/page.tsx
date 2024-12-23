@@ -12,6 +12,8 @@
 //                     </p>
 //                 </header>
 
+import Link from "next/link";
+
 //                 <div className="space-y-12">
 //                     <div className="flex items-start space-x-6">
 //                         <div className="flex-shrink-0">
@@ -216,183 +218,164 @@
 //     );
 // }
 export default function faq_4() {
-    return (
-        <main className="bg-gray-100 p-8">
-            <section className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg p-6">
-                {/* Header Section */}
-                <header className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-800 mb-4">
-                        Làm thế nào để cập nhật hồ sơ của tôi trên JobF
-                    </h1>
-                    <p className="text-lg text-gray-600">
-                        Cập nhật hồ sơ của bạn để tăng cơ hội được nhà tuyển
-                        dụng chú ý.
-                    </p>
-                </header>
+  return (
+    <main className="bg-gray-100 p-8">
+      <section className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg p-6">
+        {/* Header Section */}
+        <header className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-4">
+            Làm thế nào để cập nhật hồ sơ của tôi trên JobF
+          </h1>
+          <p className="text-lg text-gray-600">
+            Cập nhật hồ sơ của bạn để tăng cơ hội được nhà tuyển dụng chú ý.
+          </p>
+        </header>
 
-                {/* Content Section */}
-                <div className="bg-gray-100">
-                    <div className="p-6">
-                        <div className="flex">
-                            <div className="w-full">
-                                <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-                                    Đăng nhập vào tài khoản JobF
-                                </h2>
-                                <p className="text-gray-600 mb-4">
-                                    Để bắt đầu, hãy đăng nhập vào tài khoản của
-                                    bạn:
-                                </p>
-                                <ol className="list-decimal list-inside text-gray-600 space-y-4">
-                                    <li>
-                                        Truy cập trang chủ{" "}
-                                        <a
-                                            href="#"
-                                            className="text-gray-600 hover:text-gray-800 underline font-bold"
-                                        >
-                                            JobF
-                                        </a>{" "}
-                                        và nhấp vào nút &quot;Đăng nhập&quot; .
-                                    </li>
-                                    <li>
-                                        Nhập thông tin đăng nhập (email và mật
-                                        khẩu) của bạn.
-                                    </li>
-                                    <li>
-                                        Nhấp vào &quot;Đăng nhập&quot; để vào
-                                        trang quản lý cá nhân.
-                                    </li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="p-6">
-                        <div className="flex">
-                            <div className="w-full">
-                                <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-                                    Truy cập trang quản lý hồ sơ
-                                </h2>
-                                <p className="text-gray-600 mb-4">
-                                    Tiếp tục thực hiện các bước sau:
-                                </p>
-                                <ol className="list-decimal list-inside text-gray-600 space-y-4">
-                                    <li>
-                                        Nhấp vào avatar hoặc tên của bạn ở góc
-                                        trên bên phải màn hình.
-                                    </li>
-                                    <li>
-                                        Chọn &quot;Quản lý hồ sơ&quot; từ menu
-                                        thả xuống.
-                                    </li>
-                                    <li>
-                                        Bạn sẽ được chuyển đến trang quản lý
-                                        thông tin cá nhân và CV.
-                                    </li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Step 3 */}
-                    <div className="p-6">
-                        <div className="flex">
-                            <div className="w-full">
-                                <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-                                    Cập nhật thông tin cá nhân
-                                </h2>
-                                <p className="text-gray-600 mb-4">
-                                    Đảm bảo thông tin cá nhân của bạn luôn chính
-                                    xác và đầy đủ:
-                                </p>
-                                <ul className="list-disc list-inside text-gray-600 space-y-4">
-                                    <li>
-                                        Chỉnh sửa tên, số điện thoại và địa chỉ
-                                        email nếu cần.
-                                    </li>
-                                    <li>
-                                        Thêm hoặc cập nhật ảnh đại diện chuyên
-                                        nghiệp.
-                                    </li>
-                                    <li>
-                                        Viết lại đoạn giới thiệu bản thân để gây
-                                        ấn tượng với nhà tuyển dụng.
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="p-6">
-                        <div className="flex">
-                            <div className="w-full">
-                                <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-                                    Cập nhật CV của bạn
-                                </h2>
-                                <p className="text-gray-600 mb-4">
-                                    CV là yếu tố quan trọng nhất. Đừng quên:
-                                </p>
-                                <ol className="list-decimal list-inside text-gray-600 space-y-4">
-                                    <li>
-                                        Nhấp vào tab &quot;CV của tôi&quot; .
-                                    </li>
-                                    <li>
-                                        Chọn &quot;Tải lên CV mới&quot; nếu bạn
-                                        đã chuẩn bị sẵn file CV.
-                                    </li>
-                                    <li>
-                                        Hoặc sử dụng công cụ tạo CV trực tuyến
-                                        trên JobF để thiết kế một CV chuyên
-                                        nghiệp.
-                                    </li>
-                                    <li>
-                                        Đảm bảo các thông tin như kinh nghiệm,
-                                        học vấn và kỹ năng được cập nhật mới
-                                        nhất.
-                                    </li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="p-6">
-                        <div className="flex">
-                            <div className="w-full">
-                                <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-                                    Lưu và kiểm tra lại hồ sơ
-                                </h2>
-                                <p className="text-gray-600 mb-4">
-                                    Sau khi hoàn thành cập nhật:
-                                </p>
-                                <ul className="list-disc list-inside text-gray-600 space-y-4">
-                                    <li>
-                                        Nhấp vào nút &quot;Lưu thay đổi&quot; để
-                                        lưu tất cả thông tin.
-                                    </li>
-                                    <li>
-                                        Quay lại trang chủ và xem lại hồ sơ của
-                                        bạn trong mục &quot;Xem hồ sơ&quot; .
-                                    </li>
-                                    <li>
-                                        Kiểm tra xem hồ sơ đã đầy đủ và hiển thị
-                                        chính xác chưa.
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <p className="mt-8 text-lg text-center">
-                    Để biết thêm thông tin, hãy quay lại{" "}
-                    <a
-                        href="/faq"
-                        className="text-gray-600 font-medium underline hover:text-gray-800"
-                    >
-                        trang FAQ
-                    </a>
-                    .
+        {/* Content Section */}
+        <div className="bg-gray-100">
+          <div className="p-6">
+            <div className="flex">
+              <div className="w-full">
+                <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+                  Đăng nhập vào tài khoản JobF
+                </h2>
+                <p className="text-gray-600 mb-4">
+                  Để bắt đầu, hãy đăng nhập vào tài khoản của bạn:
                 </p>
-            </section>
-        </main>
-    );
+                <ol className="list-decimal list-inside text-gray-600 space-y-4">
+                  <li>
+                    Truy cập trang chủ{" "}
+                    <a
+                      href="#"
+                      className="text-gray-600 hover:text-gray-800 underline font-bold"
+                    >
+                      JobF
+                    </a>{" "}
+                    và nhấp vào nút &quot;Đăng nhập&quot; .
+                  </li>
+                  <li>Nhập thông tin đăng nhập (email và mật khẩu) của bạn.</li>
+                  <li>
+                    Nhấp vào &quot;Đăng nhập&quot; để vào trang quản lý cá nhân.
+                  </li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6">
+            <div className="flex">
+              <div className="w-full">
+                <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+                  Truy cập trang quản lý hồ sơ
+                </h2>
+                <p className="text-gray-600 mb-4">
+                  Tiếp tục thực hiện các bước sau:
+                </p>
+                <ol className="list-decimal list-inside text-gray-600 space-y-4">
+                  <li>
+                    Nhấp vào avatar hoặc tên của bạn ở góc trên bên phải màn
+                    hình.
+                  </li>
+                  <li>Chọn &quot;Quản lý hồ sơ&quot; từ menu thả xuống.</li>
+                  <li>
+                    Bạn sẽ được chuyển đến trang quản lý thông tin cá nhân và
+                    CV.
+                  </li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          {/* Step 3 */}
+          <div className="p-6">
+            <div className="flex">
+              <div className="w-full">
+                <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+                  Cập nhật thông tin cá nhân
+                </h2>
+                <p className="text-gray-600 mb-4">
+                  Đảm bảo thông tin cá nhân của bạn luôn chính xác và đầy đủ:
+                </p>
+                <ul className="list-disc list-inside text-gray-600 space-y-4">
+                  <li>
+                    Chỉnh sửa tên, số điện thoại và địa chỉ email nếu cần.
+                  </li>
+                  <li>Thêm hoặc cập nhật ảnh đại diện chuyên nghiệp.</li>
+                  <li>
+                    Viết lại đoạn giới thiệu bản thân để gây ấn tượng với nhà
+                    tuyển dụng.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6">
+            <div className="flex">
+              <div className="w-full">
+                <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+                  Cập nhật CV của bạn
+                </h2>
+                <p className="text-gray-600 mb-4">
+                  CV là yếu tố quan trọng nhất. Đừng quên:
+                </p>
+                <ol className="list-decimal list-inside text-gray-600 space-y-4">
+                  <li>Nhấp vào tab &quot;CV của tôi&quot; .</li>
+                  <li>
+                    Chọn &quot;Tải lên CV mới&quot; nếu bạn đã chuẩn bị sẵn file
+                    CV.
+                  </li>
+                  <li>
+                    Hoặc sử dụng công cụ tạo CV trực tuyến trên JobF để thiết kế
+                    một CV chuyên nghiệp.
+                  </li>
+                  <li>
+                    Đảm bảo các thông tin như kinh nghiệm, học vấn và kỹ năng
+                    được cập nhật mới nhất.
+                  </li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6">
+            <div className="flex">
+              <div className="w-full">
+                <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+                  Lưu và kiểm tra lại hồ sơ
+                </h2>
+                <p className="text-gray-600 mb-4">
+                  Sau khi hoàn thành cập nhật:
+                </p>
+                <ul className="list-disc list-inside text-gray-600 space-y-4">
+                  <li>
+                    Nhấp vào nút &quot;Lưu thay đổi&quot; để lưu tất cả thông
+                    tin.
+                  </li>
+                  <li>
+                    Quay lại trang chủ và xem lại hồ sơ của bạn trong mục
+                    &quot;Xem hồ sơ&quot; .
+                  </li>
+                  <li>
+                    Kiểm tra xem hồ sơ đã đầy đủ và hiển thị chính xác chưa.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p className="mt-8 text-lg text-center">
+          Để biết thêm thông tin, hãy quay lại{" "}
+          <Link
+            href="/faq"
+            className="text-gray-600 font-medium underline hover:text-gray-800"
+          >
+            trang FAQ
+          </Link>
+          .
+        </p>
+      </section>
+    </main>
+  );
 }

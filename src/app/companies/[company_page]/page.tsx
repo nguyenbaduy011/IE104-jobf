@@ -23,6 +23,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface companyProps {
   searchParams: {
@@ -115,7 +116,7 @@ export default async function CompanyPage({ searchParams }: companyProps) {
                 src={company_page.coverImage}
                 alt={`${company_page.name} cover`}
                 fill
-                className="object-cover"
+                className="object-contain"
                 unoptimized
               />
             )}
@@ -277,12 +278,12 @@ export default async function CompanyPage({ searchParams }: companyProps) {
                   <div>
                     <div className="font-medium">Email</div>
                     {company_page.email ? (
-                      <a
+                      <Link
                         href={`mailto:${company_page.email}`}
                         className="text-blue-600 hover:text-blue-800 mt-0.5 block"
                       >
                         {company_page.email}
-                      </a>
+                      </Link>
                     ) : (
                       <div className="text-gray-600 mt-0.5">Chưa cập nhật</div>
                     )}
@@ -296,12 +297,12 @@ export default async function CompanyPage({ searchParams }: companyProps) {
                   <div>
                     <div className="font-medium">Số điện thoại</div>
                     {company_page.phoneNumber ? (
-                      <a
+                      <Link
                         href={`tel:${company_page.phoneNumber}`}
                         className="text-blue-600 hover:text-blue-800 mt-0.5 block"
                       >
                         {company_page.phoneNumber}
-                      </a>
+                      </Link>
                     ) : (
                       <div className="text-gray-600 mt-0.5">Chưa cập nhật</div>
                     )}

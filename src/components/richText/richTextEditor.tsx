@@ -2,18 +2,27 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import TextEditorMenuBar from "./textEditorMenuBar";
+import Placeholder from "@tiptap/extension-placeholder";
 
 type TextEditorProps = {
   onChange: (content: string) => void;
-  initialContent?: string; // Add this line
+  initialContent?: string;
+  placeholder?: string;
 };
 
 export default function RichTextEditor({
   onChange,
   initialContent,
+  placeholder = "Nhập nội dung ở đây...",
 }: TextEditorProps) {
   const editor = useEditor({
-    extensions: [StarterKit, Underline],
+    extensions: [
+      StarterKit,
+      Underline,
+      Placeholder.configure({
+        placeholder, // Văn bản của placeholder
+      }),
+    ],
     content: initialContent,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
@@ -21,19 +30,19 @@ export default function RichTextEditor({
     editorProps: {
       attributes: {
         class:
-          "h-56 cursor-text p-5 ring-offset-background focus-within:outline-none ",
-        // "h-80 cursor-text rounded-md border p-5 ring-offset-background focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 ",
+          "relative h-56 cursor-text p-5 ring-offset-background focus-within:outline-none",
       },
     },
     immediatelyRender: false,
   });
+
   return (
-    <div className="">
+    <div>
       <TextEditorMenuBar editor={editor} />
       <EditorContent
         editor={editor}
         style={{ whiteSpace: "pre-wrap" }}
-        className="overflow-y-auto border rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:outline-none break-words" 
+        className="overflow-y-auto border rounded-md break-words"
       />
     </div>
   );

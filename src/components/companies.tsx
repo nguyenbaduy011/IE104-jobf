@@ -118,19 +118,20 @@ export function Companies({
                   className="object-contain"
                   unoptimized
                 />
-                <div className="absolute -bottom-10 left-4">
-                  <Image
-                    src={
-                      company.avatar
-                        ? company.avatar
-                        : "https://via.placeholder.com/80"
-                    }
-                    alt={`${company.name} avatar`}
-                    width={80}
-                    height={80}
-                    className="rounded-full border-4 border-white shadow-lg"
-                    unoptimized
-                  />
+                <div className="absolute -bottom-10 left-4 ">
+                  <div className="relative h-20 w-20">
+                    <Image
+                      src={
+                        company.avatar
+                          ? company.avatar
+                          : "https://via.placeholder.com/80"
+                      }
+                      alt={`${company.name} avatar`}
+                      fill
+                      className="rounded-full border-4 border-white shadow-lg object-contain bg-white"
+                      unoptimized
+                    />
+                  </div>
                 </div>
               </div>
               <CardHeader className="pt-12">

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function faq_3() {
     return (
         <main className="bg-gray-100 p-8">
@@ -111,12 +113,12 @@ export default function faq_3() {
 
                 <p className="mt-8 text-lg text-center">
                     Để biết thêm thông tin, hãy quay lại{" "}
-                    <a
+                    <Link
                         href="/faq"
                         className="text-gray-600 font-medium underline hover:text-gray-800"
                     >
                         trang FAQ
-                    </a>
+                    </Link>
                     .
                 </p>
             </section>
