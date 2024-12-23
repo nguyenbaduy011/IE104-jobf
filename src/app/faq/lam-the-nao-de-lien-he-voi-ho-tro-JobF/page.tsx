@@ -12,6 +12,8 @@
 //                     </p>
 //                 </header>
 
+import Link from "next/link";
+
 //                 <div className="space-y-12">
 //                     <div className="flex items-start space-x-6">
 //                         <div className="flex-shrink-0">
@@ -165,12 +167,12 @@ export default function faq_5() {
                                 <ol className="list-decimal list-inside text-gray-600 space-y-4">
                                     <li>
                                         Truy cập vào trang{" "}
-                                        <a
+                                        <Link
                                             href="/contact"
                                             className=" hover:text-gray-800 underline font-bold"
                                         >
                                             liên hệ
-                                        </a>
+                                        </Link>
                                         .
                                     </li>
                                     <li>
@@ -252,12 +254,12 @@ export default function faq_5() {
 
                 <p className="mt-8 text-lg text-center">
                     Để biết thêm thông tin, hãy quay lại{" "}
-                    <a
+                    <Link
                         href="/faq"
                         className="font-medium underline hover:text-gray-800"
                     >
                         trang FAQ
-                    </a>
+                    </Link>
                     .
                 </p>
             </section>
