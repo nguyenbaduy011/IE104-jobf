@@ -6,7 +6,7 @@
 </p>
 
 <!-- Title -->
-<h1 align="center"><b>NATURAL LANGUAGE PROCESSING</b></h1>
+<h1 align="center"><b>INTERNET VÀ CÔNG NGHỆ WEB</b></h1>
 <!-- Main -->
 # Thành viên nhóm:
 
