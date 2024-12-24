@@ -119,9 +119,6 @@ export default function SignUp() {
           <CardTitle className="text-3xl font-bold tracking-tight text-center">
             Đăng ký
           </CardTitle>
-          {/* <CardDescription className="text-center">
-            Tạo tài khoản mới để bắt đầu sử dụng dịch vụ của chúng tôi
-          </CardDescription> */}
         </CardHeader>
         <CardContent>
           <Form {...form}>

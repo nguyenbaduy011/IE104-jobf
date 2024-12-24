@@ -82,7 +82,7 @@ const AboutUs = () => {
         <h2 className="text-3xl font-semibold text-center text-primary mb-8">
           Gặp gỡ đội ngũ của chúng tôi
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {[
             {
               name: "DuyNguyen",
@@ -122,13 +122,6 @@ const AboutUs = () => {
           ))}
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-primary text-white py-6 text-center">
-        <p className="text-sm">
-          &copy; {new Date().getFullYear()} JobF. All rights reserved.
-        </p>
-      </footer>
     </main>
   );
 };
